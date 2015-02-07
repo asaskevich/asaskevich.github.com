@@ -3,12 +3,29 @@
 # ----------------------- #
 
 url: http://asaskevich.github.io
-title: Alex Saskevich
-subtitle: All about IT and developing.
+title: Some Useful Notes
+subtitle: Short notes from Alex Saskevich
 author: Alex Saskevich
 simple_search: https://www.google.com/search
 description:
 
+reading_time:     true
+words_per_minute: 200
+
+# Owner/author information
+keywords:       Alex, Saskevich, IT, JS, Java, Scala, Android, Web, XBSoftware, XB, govalidator, EventBus, quark.io, SmartCursor, yeah
+avatar:         /images/avatar.jpg
+logo:           /images/background.jpg
+background:     /images/background.jpg
+author_bio:     "Full Stack Developer at XB Software Ltd. Programmer, student, writer."
+about:          /about
+links:
+  - title: SmartCursor
+    url: http://mods.io/mods/1089-smartcursor
+    external: true
+
+owner:
+      name:   Alex Saskevich
 # Default date format is "ordinal" (resulting in "July 22nd 2007")
 # You can customize the format as defined in
 # http://www.ruby-doc.org/core-1.9.2/Time.html#method-i-strftime
