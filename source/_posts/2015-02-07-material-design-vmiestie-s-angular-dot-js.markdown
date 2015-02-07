@@ -165,4 +165,4 @@ $scope.delete = function(index, ev) {
 Собственно это все, что я хотел показать, весь код статьи расположен на CodePen вот тут: http://codepen.io/asaskevich/pen/myMyXx. Ну а сам Angular Material Design вместе с примерами и документацией расположен тут: https://material.angularjs.org.
 
 #### Маленькая заметка
-Данная статья была первоначально опубликована вот [здесь](html5.by/blog/material-design-and-angular-js/).
+Данная статья была первоначально опубликована вот [здесь](http://html5.by/blog/material-design-and-angular-js/).
