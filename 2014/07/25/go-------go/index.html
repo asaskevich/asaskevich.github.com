@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Go: Блокнот с графическим интерфейсом на языке Go | Some Useful Notes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="В данной статье я воспользуюсь языком Go и библиотекой Walk, дабы создать маленький блокнот с GUI.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go: Блокнот с графическим интерфейсом на языке Go">
+<meta property="og:url" content="http://asaskevich.github.io/2014/07/25/go-------go/index.html">
+<meta property="og:site_name" content="Some Useful Notes">
+<meta property="og:description" content="В данной статье я воспользуюсь языком Go и библиотекой Walk, дабы создать маленький блокнот с GUI.">
+<meta property="og:image" content="http://habrastorage.org/getpro/habr/post_images/207/3a0/d8c/2073a0d8cd6dd8e85e3dd6f8e1175f93.png">
+<meta property="og:image" content="http://habrastorage.org/getpro/habr/post_images/ff9/b5f/fd8/ff9b5ffd81192e24b2be7fa0b393cba6.png">
+<meta property="og:updated_time" content="2015-04-21T09:53:12.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Go: Блокнот с графическим интерфейсом на языке Go">
+<meta name="twitter:description" content="В данной статье я воспользуюсь языком Go и библиотекой Walk, дабы создать маленький блокнот с GUI.">
+  
+    <link rel="alternate" href="/atom.xml" title="Some Useful Notes" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Some Useful Notes</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Short notes from Alex Saskevich</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://asaskevich.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-go-------go" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/07/25/go-------go/" class="article-date">
+  <time datetime="2014-07-24T21:00:00.000Z" itemprop="datePublished">2014-07-25</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/API/">API</a>►<a class="article-category-link" href="/categories/API/Go/">Go</a>►<a class="article-category-link" href="/categories/API/Go/Walk/">Walk</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Go: Блокнот с графическим интерфейсом на языке Go
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Несмотря на то, что язык Go существует уже не один год, информация о том, как создавать приложения с графическим интерфейсом на этом языке, практически отсутствует. Возможно это вызвано тем, что среди официальных библиотек до сих пор нет библиотеки для работы с GUI. Однако это не значит, что мы не можем создать приложение с пользовательским интерфейсом: существуют библиотеки, предоставляющие такую возможность. Приведу их <a href="https://code.google.com/p/go-wiki/wiki/Projects#GUIs_and_Widget_Toolkits" target="_blank" rel="external">список</a>. Но есть еще несколько библиотек, не указанных в этом списке. Среди них — <a href="https://github.com/lxn/walk" target="_blank" rel="external">Walk</a>, название которого расшифровывается как «Windows Application Library Kit». С его помощью я попробую создать небольшое приложение с пользовательским интерфейсом.</p>
+<a id="more"></a>
+<h3 id="u041F_u043E_u0441_u0442_u0430_u043D_u043E_u0432_u043A_u0430__u0437_u0430_u0434_u0430_u0447_u0438"><a href="#u041F_u043E_u0441_u0442_u0430_u043D_u043E_u0432_u043A_u0430__u0437_u0430_u0434_u0430_u0447_u0438" class="headerlink" title="Постановка задачи"></a>Постановка задачи</h3><p>Предположим, что я хочу создать небольшой блокнот, позволяющий мне сохранять введенный текст в файл, загружать этот текст обратно, копировать текст в буфер обмена и извлекать из него же. </p>
+<h3 id="u0423_u0441_u0442_u0430_u043D_u043E_u0432_u043A_u0430__u0431_u0438_u0431_u043B_u0438_u043E_u0442_u0435_u043A_u0438_Walk"><a href="#u0423_u0441_u0442_u0430_u043D_u043E_u0432_u043A_u0430__u0431_u0438_u0431_u043B_u0438_u043E_u0442_u0435_u043A_u0438_Walk" class="headerlink" title="Установка библиотеки Walk"></a>Установка библиотеки Walk</h3><p>Walk работает только с Go версии 1.1.x и выше. На первом этапе нужно загрузить и установить библиотеку с GitHub. Запускаем CMD и выполняем команду:</p>
+<figure class="highlight bash"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go get github.com/lxn/walk</span><br></pre></td></tr></table></figure>
+<p>Если Go ругается и выдает что-то типа <code>go: missing Git command ...</code>, то нужно посетить <a href="/git-scm.com/downloads">сайт Git’a</a> и установить его. Если после установки его ошибка не исчезла, нужно убедиться, что в <strong>%PATH%</strong> прописан путь до Git.</p>
+<h3 id="u0421_u043E_u0437_u0434_u0430_u043D_u0438_u0435__u043F_u0443_u0441_u0442_u043E_u0439__u0444_u043E_u0440_u043C_u044B"><a href="#u0421_u043E_u0437_u0434_u0430_u043D_u0438_u0435__u043F_u0443_u0441_u0442_u043E_u0439__u0444_u043E_u0440_u043C_u044B" class="headerlink" title="Создание пустой формы"></a>Создание пустой формы</h3><p>Создадим исходный файл <code>gopad.go</code> с таким содержимым:</p>
+<figure class="highlight go"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    . <span class="string">"github.com/lxn/walk/declarative"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">func</span> main() &#123;</span><br><span class="line">    MainWindow&#123;</span><br><span class="line">        Title:   <span class="string">"GoPad"</span>, <span class="comment">// Ставим заголовок формы</span></span><br><span class="line">        MinSize: Size&#123;<span class="number">600</span>, <span class="number">400</span>&#125;, <span class="comment">// И ее минимальные размеры</span></span><br><span class="line">    &#125;.Run()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Теперь скомпилируем наш исходник. Создадим bat-скрипт <code>build.bat</code> с таким содержимым:</p>
+<figure class="highlight bash"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">go build -ldflags=<span class="string">"-H windowsgui"</span></span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
+<p>Мы могли бы не прописывать ключ <code>ldflags</code>, но тогда бы форма запускалась вместе с консолью на заднем плане. Запустим наш скрипт и убедимся, что все скомпилировалось корректно. Но запускать полученный exe-файл пока что рано. Нужно создать еще один файл — манифест. Создадим файл <code>gopad.exe.manifest</code> (вместо <code>gopad.exe</code> должно быть название полученного бинарника) с таким содержимым:</p>
+<figure class="highlight xml"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="pi">&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">assembly</span> <span class="attribute">xmlns</span>=<span class="value">"urn:schemas-microsoft-com:asm.v1"</span> <span class="attribute">manifestVersion</span>=<span class="value">"1.0"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">assemblyIdentity</span> <span class="attribute">version</span>=<span class="value">"1.0.0.0"</span> <span class="attribute">processorArchitecture</span>=<span class="value">"*"</span> <span class="attribute">name</span>=<span class="value">"SomeName"</span> <span class="attribute">type</span>=<span class="value">"win32"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">dependentAssembly</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">assemblyIdentity</span> <span class="attribute">type</span>=<span class="value">"win32"</span> <span class="attribute">name</span>=<span class="value">"Microsoft.Windows.Common-Controls"</span> <span class="attribute">version</span>=<span class="value">"6.0.0.0"</span> <span class="attribute">processorArchitecture</span>=<span class="value">"*"</span> <span class="attribute">publicKeyToken</span>=<span class="value">"6595b64144ccf1df"</span> <span class="attribute">language</span>=<span class="value">"*"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">dependentAssembly</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">assembly</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="u041C_u0430_u043D_u0438_u0444_u0435_u0441_u0442__u043E_u0431_u044F_u0437_u0430_u0442_u0435_u043B_u044C_u043D_u043E__u0434_u043E_u043B_u0436_u0435_u043D__u043F_u0440_u0438_u0441_u0443_u0442_u0441_u0442_u0432_u043E_u0432_u0430_u0442_u044C-__u0411_u0435_u0437__u043D_u0435_u0433_u043E__u0431_u0438_u043D_u0430_u0440_u043D_u0438_u043A__u043D_u0435__u0437_u0430_u043F_u0443_u0441_u0442_u0438_u0442_u0441_u044F_21"><a href="#u041C_u0430_u043D_u0438_u0444_u0435_u0441_u0442__u043E_u0431_u044F_u0437_u0430_u0442_u0435_u043B_u044C_u043D_u043E__u0434_u043E_u043B_u0436_u0435_u043D__u043F_u0440_u0438_u0441_u0443_u0442_u0441_u0442_u0432_u043E_u0432_u0430_u0442_u044C-__u0411_u0435_u0437__u043D_u0435_u0433_u043E__u0431_u0438_u043D_u0430_u0440_u043D_u0438_u043A__u043D_u0435__u0437_u0430_u043F_u0443_u0441_u0442_u0438_u0442_u0441_u044F_21" class="headerlink" title="Манифест обязательно должен присутствовать. Без него бинарник не запустится!"></a>Манифест обязательно должен присутствовать. Без него бинарник не запустится!</h3><p>Когда все сделано, пора запустить нашу пустую форму, чтобы убедиться, что все работает. У меня полученная программа выглядит так:</p>
+<p><img src="http://habrastorage.org/getpro/habr/post_images/207/3a0/d8c/2073a0d8cd6dd8e85e3dd6f8e1175f93.png" alt=""></p>
+<h3 id="u0414_u043E_u0431_u0430_u0432_u043B_u044F_u0435_u043C__u043D_u0435_u043E_u0431_u0445_u043E_u0434_u0438_u043C_u044B_u0435__u043A_u043D_u043E_u043F_u043A_u0438__u0438__u043F_u043E_u043B_u0435__u0432_u0432_u043E_u0434_u0430"><a href="#u0414_u043E_u0431_u0430_u0432_u043B_u044F_u0435_u043C__u043D_u0435_u043E_u0431_u0445_u043E_u0434_u0438_u043C_u044B_u0435__u043A_u043D_u043E_u043F_u043A_u0438__u0438__u043F_u043E_u043B_u0435__u0432_u0432_u043E_u0434_u0430" class="headerlink" title="Добавляем необходимые кнопки и поле ввода"></a>Добавляем необходимые кнопки и поле ввода</h3><p>Для начала добавим поле ввода. Добавим в import еще одну библиотеку:</p>
+<figure class="highlight go"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">"github.com/lxn/walk"</span></span><br><span class="line">    . <span class="string">"github.com/lxn/walk/declarative"</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>Потом создадим поле ввода, переменную-указатель и привяжем его к полю:</p>
+<figure class="highlight go"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> main() &#123;</span><br><span class="line">    <span class="keyword">var</span> edit *walk.TextEdit</span><br><span class="line">    MainWindow&#123;</span><br><span class="line">        Title:   <span class="string">"GoPad"</span>,</span><br><span class="line">        MinSize: Size&#123;<span class="number">600</span>, <span class="number">400</span>&#125;,</span><br><span class="line">        Layout:  VBox&#123;&#125;,</span><br><span class="line">        Children: []Widget&#123;</span><br><span class="line">            TextEdit&#123;AssignTo: &amp;edit&#125;,</span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;.Run()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Запустим и убедимся, что появилось поле ввода, которое отображается на всю форму.<br>Таким же образом пропишем в MainWindow четыре кнопки: «Copy», «Paste», «Load», «Save»:</p>
+<figure class="highlight go"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">MainWindow&#123;</span><br><span class="line">     Title:   <span class="string">"GoPad"</span>,</span><br><span class="line">     MinSize: Size&#123;<span class="number">600</span>, <span class="number">400</span>&#125;,</span><br><span class="line">     Layout:  VBox&#123;&#125;,</span><br><span class="line">     Children: []Widget&#123;</span><br><span class="line">            TextEdit&#123;AssignTo: &amp;edit&#125;,</span><br><span class="line">            HSplitter&#123;</span><br><span class="line">        	MinSize: Size&#123;<span class="number">600</span>, <span class="number">30</span>&#125;,</span><br><span class="line">                Children: []Widget&#123;</span><br><span class="line">                	PushButton&#123;</span><br><span class="line">            		    Text: <span class="string">"Copy"</span>,</span><br><span class="line">            		&#125;,</span><br><span class="line">            		PushButton&#123;</span><br><span class="line">                	    Text: <span class="string">"Paste"</span>,</span><br><span class="line">            		&#125;,</span><br><span class="line">            		PushButton&#123;</span><br><span class="line">                	    Text: <span class="string">"Load"</span>,</span><br><span class="line">            		&#125;,</span><br><span class="line">            		PushButton&#123;</span><br><span class="line">                	    Text: <span class="string">"Save"</span>,</span><br><span class="line">           		&#125;,</span><br><span class="line">                &#125;,</span><br><span class="line">           &#125;,</span><br><span class="line">      &#125;,</span><br><span class="line">&#125;.Run()</span><br></pre></td></tr></table></figure>
+<p>В результате получаем вот такую форму:</p>
+<p><img src="http://habrastorage.org/getpro/habr/post_images/ff9/b5f/fd8/ff9b5ffd81192e24b2be7fa0b393cba6.png" alt=""></p>
+<p>Когда все элементы расположились на ней, пора добавить немного функционала.</p>
+<h3 id="u0420_u0430_u0431_u043E_u0442_u0430__u0441__u0431_u0443_u0444_u0435_u0440_u043E_u043C"><a href="#u0420_u0430_u0431_u043E_u0442_u0430__u0441__u0431_u0443_u0444_u0435_u0440_u043E_u043C" class="headerlink" title="Работа с буфером"></a>Работа с буфером</h3><p>Чтобы добавить обработчик нажатия на кнопку, достаточно прописать необходимую функцию, которая будет запускаться при нажатии кнопки, в свойствах самой же кнопки:</p>
+<figure class="highlight go"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">PushButton&#123;</span><br><span class="line">      Text: <span class="string">"Save"</span>,</span><br><span class="line">       OnClicked: <span class="keyword">func</span>() &#123;</span><br><span class="line">              <span class="comment">// ...</span></span><br><span class="line">       &#125;,</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<p>Мы можем либо создать анонимную функцию, либо прописать уже существующую.<br>Walk позволяет нам работать с буфером обмена напрямую через данные функции:</p>
+<figure class="highlight go"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">walk.Clipboard().SetText(<span class="string">"text"</span>); <span class="comment">// Вставляем текст в буфер обмена</span></span><br><span class="line">walk.Clipboard().Text(); <span class="comment">// Извлекаем его</span></span><br></pre></td></tr></table></figure>
+<p>Чтобы получить или заменить текст в поле ввода, используем такие функции:</p>
+<figure class="highlight go"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">edit.Text(); <span class="comment">// Чтобы получить текст из поля</span></span><br><span class="line">edit.SetText(<span class="string">"text"</span>); <span class="comment">// Чтобы его установить в поле</span></span><br></pre></td></tr></table></figure>
+<p>Теперь содержимое наших кнопок станет таким:</p>
+<figure class="highlight go"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">PushButton&#123;</span><br><span class="line">        Text: <span class="string">"Copy"</span>,</span><br><span class="line">        OnClicked: <span class="keyword">func</span>() &#123;</span><br><span class="line">                 walk.Clipboard().SetText(edit.Text());</span><br><span class="line">        &#125;,</span><br><span class="line">&#125;,</span><br><span class="line">PushButton&#123;</span><br><span class="line">       Text: <span class="string">"Paste"</span>,</span><br><span class="line">       OnClicked: <span class="keyword">func</span>() &#123;</span><br><span class="line">                  <span class="keyword">if</span> text, err := walk.Clipboard().Text(); err == <span class="constant">nil</span> &#123;</span><br><span class="line">                           edit.SetText(text)</span><br><span class="line">                  &#125;</span><br><span class="line">       &#125;,</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<h3 id="u0421_u043E_u0445_u0440_u0430_u043D_u0435_u043D_u0438_u0435__u0432__u0444_u0430_u0439_u043B__u0438__u0437_u0430_u0433_u0440_u0443_u0437_u043A_u0430__u0438_u0437__u043D_u0435_u0433_u043E"><a href="#u0421_u043E_u0445_u0440_u0430_u043D_u0435_u043D_u0438_u0435__u0432__u0444_u0430_u0439_u043B__u0438__u0437_u0430_u0433_u0440_u0443_u0437_u043A_u0430__u0438_u0437__u043D_u0435_u0433_u043E" class="headerlink" title="Сохранение в файл и загрузка из него"></a>Сохранение в файл и загрузка из него</h3><p>Давайте вынесем загрузку и сохранение в файл в отдельные функции. Для этого сделаем переменную <code>edit</code> глобальной. Создадим функцию <code>readFromFile</code>, подгружающую в поле текст из текстового файла <code>file.txt</code> (не забываем, что в import нужно добавить “io/ioutil”):</p>
+<figure class="highlight go"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> edit *walk.TextEdit</span><br><span class="line"></span><br><span class="line"><span class="keyword">func</span> readFromFile() &#123;</span><br><span class="line">    contents,_ := ioutil.ReadFile(<span class="string">"file.txt"</span>)</span><br><span class="line">    edit.SetText(<span class="typename">string</span>(contents))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Аналогично пропишем сохранение в файл:</span><br><span class="line"><span class="keyword">func</span> saveToFile() &#123;</span><br><span class="line">    ioutil.WriteFile(<span class="string">"file.txt"</span>, []<span class="typename">byte</span>(edit.Text()), <span class="number">0x777</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Теперь нам нужно привязать функции к соответствующим кнопкам:</p>
+<figure class="highlight go"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">PushButton&#123;</span><br><span class="line">        Text: <span class="string">"Load"</span>,</span><br><span class="line">        OnClicked: readFromFile,</span><br><span class="line">&#125;,</span><br><span class="line">PushButton&#123;</span><br><span class="line">        Text: <span class="string">"Save"</span>,</span><br><span class="line">        OnClicked: saveToFile,</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<p>P.S. Содержимое текстового файла программа читает и пишет в юникоде.</p>
+<h3 id="u0418_u0442_u043E_u0433_u0438"><a href="#u0418_u0442_u043E_u0433_u0438" class="headerlink" title="Итоги"></a>Итоги</h3><p>Мы создали небольшой блокнот с графическим интерфейсом на языке Go с использованием библиотеки Walk. При желании функционал можно расширить: добавить выбор файла, контекстное меню, работу с вкладками и шрифтами и многое другое. Walk активно развивается и предоставляет доступ к большому числу компонент WinUI. На репозитории проекта находится много примеров с использованием библиотеки. </p>
+<h3 id="u0421_u0441_u044B_u043B_u043A_u0438"><a href="#u0421_u0441_u044B_u043B_u043A_u0438" class="headerlink" title="Ссылки"></a>Ссылки</h3><ul>
+<li><a href="https://code.google.com/p/go-wiki/wiki/Projects#GUIs_and_Widget_Toolkits" target="_blank" rel="external">GUIs and Widget Toolkits</a></li>
+<li><a href="https://github.com/lxn/walk" target="_blank" rel="external">Walk</a></li>
+<li><a href="https://github.com/lxn/walk/tree/master/examples" target="_blank" rel="external">Walk Examples</a></li>
+</ul>
+<h3 id="u041C_u0430_u043B_u0435_u043D_u044C_u043A_u0430_u044F__u0437_u0430_u043C_u0435_u0442_u043A_u0430"><a href="#u041C_u0430_u043B_u0435_u043D_u044C_u043A_u0430_u044F__u0437_u0430_u043C_u0435_u0442_u043A_u0430" class="headerlink" title="Маленькая заметка"></a>Маленькая заметка</h3><p>В оригинале статья была опубликована <a href="http://habrahabr.ru/post/205268/" target="_blank" rel="external">тут</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://asaskevich.github.io/2014/07/25/go-------go/" data-id="cijaetsd6003ah4uof5b1gele" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/07/30/java--api----jsoup/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Java &amp; API: Легкий старт с Jsoup
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/07/23/scala---/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Scala: внедряемся в код</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/API/">API</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/API/Go/">Go</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/API/Go/Cryptography/">Cryptography</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/API/Go/Walk/">Walk</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/API/Java/">Java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/API/Java/Jsoup/">Jsoup</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/API/JavaScript/">JavaScript</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/API/JavaScript/StackExchange/">StackExchange</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/API/Python/">Python</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/API/Python/Flask/">Flask</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Backbone/">Backbone</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Backbone/JavaScript/">JavaScript</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Backbone/JavaScript/Routers/">Routers</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/CSS/">CSS</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CSS/HTML/">HTML</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CSS/HTML/Design/">Design</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Clojure/">Clojure</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Clojure/Newbie/">Newbie</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Clojure/Newbie/Functional/">Functional</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Concurrency/">Concurrency</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Concurrency/Actors/">Actors</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Concurrency/Actors/Scala/">Scala</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Deployment/">Deployment</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Deployment/Heroku/">Heroku</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Deployment/Heroku/Go/">Go</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Go/">Go</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Go/API/">API</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Go/API/Validation/">Validation</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Grunt/">Grunt</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Grunt/JavaScript/">JavaScript</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/C/">C</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/C/C/">C++</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/C/C/JNI/">JNI</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/C/GCJ/">GCJ</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/Useful/">Useful</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/Useful/Moment-js/">Moment.js</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Material-Design/">Material Design</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Material-Design/Angular-js/">Angular.js</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Material-Design/Angular-js/JavaScript/">JavaScript</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Minecraft/">Minecraft</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Minecraft/Forge/">Forge</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Minecraft/Forge/Modding/">Modding</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Minecraft/Forge/Modding/API/">API</a></li></ul></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/">Newbie</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/Clojure/">Clojure</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/Clojure/Functional/">Functional</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/Clojure/Functional/Data-Structures/">Data Structures</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/JavaScript/">JavaScript</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/JavaScript/Backbone-js/">Backbone.js</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/Jekyll/">Jekyll</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/Node-js/">Node.js</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/Node-js/Sails-js/">Sails.js</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/Node-js/Sails-js/Backbone-js/">Backbone.js</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/Octopress/">Octopress</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Scala/">Scala</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Scala/Traits/">Traits</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/localStorage/">localStorage</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/localStorage/localForage/">localForage</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/localStorage/localForage/indexedDB/">indexedDB</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/localStorage/localForage/indexedDB/webSql/">webSql</a></li></ul></li></ul></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2015/04/21/localforage-khranim-dannyie-offline-biez-gholovnoi-boli-udobnaia-abstraktsiia-nad-indexeddb/">localForage – храним данные offline без головной боли. Удобная абстракция над IndexedDB</a>
+          </li>
+        
+          <li>
+            <a href="/2015/02/09/validatsiia-dannykh-v-go-pri-pomoshchi-govalidator/">Валидация данных в Go при помощи govalidator</a>
+          </li>
+        
+          <li>
+            <a href="/2015/02/08/minecraft-forge-kastomnyie-tieksty-v-gui-kontieinierov/">Minecraft Forge: кастомные тексты в GUI контейнеров</a>
+          </li>
+        
+          <li>
+            <a href="/2015/02/07/material-design-vmiestie-s-angular-dot-js/">Material Design вместе с Angular.js</a>
+          </li>
+        
+          <li>
+            <a href="/2014/09/03/moment-dot-js-rabota-s-datami-v-javascript/">Moment.js: работа с датами в JavaScript</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 Alex Saskevich<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>

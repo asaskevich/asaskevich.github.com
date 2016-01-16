@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>JS &amp; API: StackExchange API на пальцах | Some Useful Notes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="На примере StackExchange API рассмотрим общий принцип взаимодействия с API различных сервисов.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS & API: StackExchange API на пальцах">
+<meta property="og:url" content="http://asaskevich.github.io/2014/08/11/js--api-stackexchange-api--/index.html">
+<meta property="og:site_name" content="Some Useful Notes">
+<meta property="og:description" content="На примере StackExchange API рассмотрим общий принцип взаимодействия с API различных сервисов.">
+<meta property="og:image" content="http://habrastorage.org/getpro/habr/post_images/81f/0d0/9c7/81f0d09c7cb9bbdf98d797e4e9247b43.png">
+<meta property="og:image" content="http://habrastorage.org/getpro/habr/post_images/f13/448/709/f13448709920a84c0913e44dbffdfd89.png">
+<meta property="og:image" content="http://habrastorage.org/getpro/habr/post_images/687/aa6/b74/687aa6b74036bf07e26f55bde783b56e.png">
+<meta property="og:image" content="http://habrastorage.org/getpro/habr/post_images/fff/f2a/096/ffff2a096c4e34e9d927f65f026284db.png">
+<meta property="og:updated_time" content="2015-04-21T09:53:12.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JS & API: StackExchange API на пальцах">
+<meta name="twitter:description" content="На примере StackExchange API рассмотрим общий принцип взаимодействия с API различных сервисов.">
+  
+    <link rel="alternate" href="/atom.xml" title="Some Useful Notes" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Some Useful Notes</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Short notes from Alex Saskevich</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://asaskevich.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-js--api-stackexchange-api--" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/08/11/js--api-stackexchange-api--/" class="article-date">
+  <time datetime="2014-08-10T21:00:00.000Z" itemprop="datePublished">2014-08-11</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/API/">API</a>►<a class="article-category-link" href="/categories/API/JavaScript/">JavaScript</a>►<a class="article-category-link" href="/categories/API/JavaScript/StackExchange/">StackExchange</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      JS &amp; API: StackExchange API на пальцах
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Иногда возникают ситуации, когда необходимо написать скрипт или приложение, взаимодействующее с каким-либо сервисом. Многие крупные сайты предлагают разработчикам свое API, которое они могут использовать в своих проектах. Однако у каждого сервиса свои функции и способы работы с API. Потому нередко сложно начать использовать сторонние API в своих проектах.</p>
+<p>На примере небольшого приложения, авторизирующего пользователя и получающего его последние уведомления с данными профиля, мы рассмотрим, как пользоваться Stack Exchange API.</p>
+<a id="more"></a>
+<h3 id="u0420_u0435_u0433_u0438_u0441_u0442_u0440_u0430_u0446_u0438_u044F__u043D_u043E_u0432_u043E_u0433_u043E__u043F_u0440_u0438_u043B_u043E_u0436_u0435_u043D_u0438_u044F"><a href="#u0420_u0435_u0433_u0438_u0441_u0442_u0440_u0430_u0446_u0438_u044F__u043D_u043E_u0432_u043E_u0433_u043E__u043F_u0440_u0438_u043B_u043E_u0436_u0435_u043D_u0438_u044F" class="headerlink" title="Регистрация нового приложения"></a>Регистрация нового приложения</h3><p>Прежде чем создавать свое приложение, необходимо зарегистрировать его в StackApps. Это необходимо, чтобы получить ключи доступа для него. Переходим по <a href="/stackapps.com/apps/oauth/register">этой ссылке</a> и заполняем все поля, не помеченные пунктом optional. Для своего туториала я заполнил поля так:</p>
+<p><img src="http://habrastorage.org/getpro/habr/post_images/81f/0d0/9c7/81f0d09c7cb9bbdf98d797e4e9247b43.png" alt=""></p>
+<p>Не забываем поставить галочку в <code>«Enable Client Side OAuth Flow»</code>. Это необходимо для OAuth — иначе пользователь просто не сможет войти в систему, пользуясь приложением. Когда все заполнили, жмем соответствующую кнопку, и переходим на страницу управления приложением. Там мы получим несколько ключей (<code>Client Id</code>, <code>Client Secret</code>, <code>Key</code>). Из них для самого приложения нужны только <code>ClientId</code> и <code>Key</code>. Сохраняем их и на этом мы завершаем процесс регистрации и переходим непосредственно к написанию самого приложения.</p>
+<h3 id="u041D_u0430_u0447_u0438_u043D_u0430_u0435_u043C"><a href="#u041D_u0430_u0447_u0438_u043D_u0430_u0435_u043C" class="headerlink" title="Начинаем"></a>Начинаем</h3><p>Создадим новый чистый HTML файл и сразу подключим в нем скрипт:</p>
+<figure class="highlight js"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=<span class="string">'text/javascript'</span> src=<span class="string">'https://api.stackexchange.com/js/2.0/all.js'</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+<p>Теперь мы можем воспользоваться базовыми функциями инициализации и авторизации для дальнейшей работы. Помимо <code>key</code> и <code>clientId</code>, для инициализации нам необходимо передать два дополнительных параметра - домен и callback-функция:</p>
+<figure class="highlight js"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SE.init(&#123;</span><br><span class="line">    clientId: <span class="number">1</span>, <span class="comment">// Здесь мы ставим выданный нам clientId</span></span><br><span class="line">    key: <span class="string">'YoUrAweSomeKey'</span>, <span class="comment">// А здесь соответственно key</span></span><br><span class="line">    channelUrl: <span class="string">'http://example.com/'</span>, <span class="comment">// Особое внимание стоит уделить этому полю. Здесь нужно указать домен, на котором хостится и крутится приложение</span></span><br><span class="line">    complete: <span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123; alert(<span class="string">"Я загрузился!"</span>); &#125; <span class="comment">// Здесь мы указываем некоторую функцию, которая будет выполнена в случае успеха</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>Если вы все сделали верно, то при загрузке страницы должен выскакивать alert :) Иначе проверьте вывод консоли — нет ли там чего подобного на <code>Uncaught channelUrl must be under the current domain</code> ? Если есть — перепроверьте <code>channelUrl</code>. Иначе стоит проверить параметры приложения в панели управления на сайте.</p>
+<h3 id="u0410_u0432_u0442_u043E_u0440_u0438_u0437_u0430_u0446_u0438_u044F"><a href="#u0410_u0432_u0442_u043E_u0440_u0438_u0437_u0430_u0446_u0438_u044F" class="headerlink" title="Авторизация"></a>Авторизация</h3><p>Изменим предыдущий код, а именно: создадим прототип функции <code>auth(data)</code> и укажем ее в <code>SE.init</code> как функцию, вызываемую при успешной инициализации:</p>
+<figure class="highlight js"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">auth</span>(<span class="params">data</span>) </span>&#123;&#125;</span><br><span class="line">...</span><br><span class="line">SE.init(&#123;</span><br><span class="line">    ...</span><br><span class="line">    complete: auth</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>Теперь самое время писать авторизацию. Здесь тоже все просто:</p>
+<figure class="highlight js"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SE.authenticate(&#123;</span><br><span class="line">    success: <span class="function"><span class="keyword">function</span>(<span class="params">data</span>) </span>&#123; alert(<span class="string">'Я получил доступ!'</span>); &#125;, <span class="comment">// Приложение авторизовало пользователя</span></span><br><span class="line">    error: <span class="function"><span class="keyword">function</span>(<span class="params">data</span>) </span>&#123;  alert(<span class="string">'Я не получил доступ :('</span>); &#125;, <span class="comment">// Приложение не авторизовало пользователя</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>Этот код я поместил в тело <code>auth(data)</code>. Теперь, при первой загрузке страницы должно появиться всплывающее окно. В нем вам будут предложены две кнопки — на разрешение и запрет доступа для приложения:</p>
+<p><img src="http://habrastorage.org/getpro/habr/post_images/f13/448/709/f13448709920a84c0913e44dbffdfd89.png" alt=""></p>
+<p>Однако пока мы просто авторизируемся и ничего не делаем с полученными данными. А ведь в случае успеха нам будут отданы клиентские токены для дальнейшей работы. Давайте сохраним их где-нибудь. Например так — создадим некоторую глобальную переменную, которая будет хранить эти самые токены:</p>
+<figure class="highlight js"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> tokens = <span class="literal">null</span>;</span><br><span class="line">...</span><br><span class="line">SE.authenticate(&#123;</span><br><span class="line">    success: <span class="function"><span class="keyword">function</span>(<span class="params">data</span>) </span>&#123; alert(<span class="string">'Я получил доступ!'</span>); tokens = data; &#125;, </span><br><span class="line">    ...</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>Теперь, когда мы умеем авторизировать пользователя, можно перейти к непосредственной работе с API.</p>
+<h3 id="u041F_u043E_u043B_u0443_u0447_u0435_u043D_u0438_u0435__u0434_u0430_u043D_u043D_u044B_u0445__u043F_u0440_u043E_u0444_u0438_u043B_u044F"><a href="#u041F_u043E_u043B_u0443_u0447_u0435_u043D_u0438_u0435__u0434_u0430_u043D_u043D_u044B_u0445__u043F_u0440_u043E_u0444_u0438_u043B_u044F" class="headerlink" title="Получение данных профиля"></a>Получение данных профиля</h3><p>API возвращает нам ответ на запросы в формате JSON. Это значит, что данные, загруженные посредством JS, легко будут переведены из строкового формата в некоторую структуру. Запросы будут кросс-доменные, и потому я воспользуюсь jQuery.<br>Данные о пользователе будем получать вот здесь:</p>
+<figure class="highlight js"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:<span class="comment">//api.stackexchange.com/2.2/me?site=[название сайта]</span></span><br></pre></td></tr></table></figure>
+<p>Некоторые данные о пользователе (например рейтинг или значки) зависят от того, на каком сайте сети Stack Exchange запрашивается профиль. Данные, полученные с StackOverflow и с MathOverflow, могут различаться. Название сайта можно посмотреть в самой системе. Окей. Если просто запросить данные по ссылке, мы получим что-то вроде такого json’a:</p>
+<figure class="highlight js"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="string">"error_id"</span>:<span class="number">401</span>,<span class="string">"error_message"</span>:<span class="string">"This method requires an access_token"</span>,<span class="string">"error_name"</span>:<span class="string">"access_token_required"</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>Все возможные ошибки можно глянуть <a href="http://api.stackexchange.com/docs/error-handling" target="_blank" rel="external">тут</a></p>
+<p>А ведь же нам нужно указать токены доступа! Для этого к нашему адресу выше мы прицепим эти самые токены:<br><code>https://api.stackexchange.com/2.2/me?site=[название сайта]&amp;key=[ключ приложения key]&amp;access_token=[tokens.accessToken]&amp;callback=[method]</code></p>
+<p>Здесь <code>tokens.accessToken</code> как раз ранее полученный в процессе авторизации ключ пользователя, а method — колбэк, который будет вызван в конце загрузки. Ответ будет примерно таким:</p>
+<figure class="highlight js"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">"items"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="string">"badge_counts"</span>: &#123;</span><br><span class="line">                <span class="string">"bronze"</span>: <span class="number">5</span>,</span><br><span class="line">                <span class="string">"silver"</span>: <span class="number">0</span>,</span><br><span class="line">                <span class="string">"gold"</span>: <span class="number">0</span></span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="string">"account_id"</span>: <span class="number">2760756</span>,</span><br><span class="line">            <span class="string">"is_employee"</span>: <span class="literal">false</span>,</span><br><span class="line">            <span class="string">"last_modified_date"</span>: <span class="number">1396214504</span>,</span><br><span class="line">            <span class="string">"last_access_date"</span>: <span class="number">1396268249</span>,</span><br><span class="line">            <span class="string">"reputation_change_year"</span>: <span class="number">62</span>,</span><br><span class="line">            <span class="string">"reputation_change_quarter"</span>: <span class="number">62</span>,</span><br><span class="line">            <span class="string">"reputation_change_month"</span>: <span class="number">62</span>,</span><br><span class="line">            <span class="string">"reputation_change_week"</span>: <span class="number">55</span>,</span><br><span class="line">            <span class="string">"reputation_change_day"</span>: <span class="number">10</span>,</span><br><span class="line">            <span class="string">"reputation"</span>: <span class="number">63</span>,</span><br><span class="line">            <span class="string">"creation_date"</span>: <span class="number">1368447422</span>,</span><br><span class="line">            <span class="string">"user_type"</span>: <span class="string">"registered"</span>,</span><br><span class="line">            <span class="string">"user_id"</span>: <span class="number">2377708</span>,</span><br><span class="line">            <span class="string">"age"</span>: <span class="number">18</span>,</span><br><span class="line">            <span class="string">"location"</span>: <span class="string">"Belarus"</span>,</span><br><span class="line">            <span class="string">"link"</span>: <span class="string">"http://stackoverflow.com/users/2377708/alex-saskevich"</span>,</span><br><span class="line">            <span class="string">"display_name"</span>: <span class="string">"Alex Saskevich"</span>,</span><br><span class="line">            <span class="string">"profile_image"</span>: <span class="string">"http://i.stack.imgur.com/0Vz5q.jpg?s=128&amp;g=1"</span></span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    <span class="string">"has_more"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"quota_max"</span>: <span class="number">10000</span>,</span><br><span class="line">    <span class="string">"quota_remaining"</span>: <span class="number">9905</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>С такими данными визуально сложно работать, и потому я создам callback функцию, которая будет рендерить полученную информацию в небольшую табличку: </p>
+<figure class="highlight js"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">renderProfileData</span>(<span class="params">data</span>)</span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">var</span> items = data.items[<span class="number">0</span>];</span><br><span class="line">    $(<span class="string">"#reputation"</span>).text(items.reputation);</span><br><span class="line">    $(<span class="string">"#login"</span>).text(items.display_name);</span><br><span class="line">    $(<span class="string">"#bronze_badges"</span>).text(items.badge_counts.bronze);</span><br><span class="line">    $(<span class="string">"#silver_badges"</span>).text(items.badge_counts.silver);</span><br><span class="line">    $(<span class="string">"#gold_badges"</span>).text(items.badge_counts.gold);</span><br><span class="line">    $(<span class="string">"#profile_image"</span>).attr(<span class="string">"src"</span>, items.profile_image);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Саму информацию я получал через GET запросы примерно так: <code>$.get(&quot;https://api.stackexchange.com/2.2/me?site=stackoverflow&amp;key=YoUrAwEsOmEKey&amp;access_token=YoUrSecretToKEn&amp;callback=profile&quot;);</code></p>
+<p>В итоге у меня получился такой результат:</p>
+<p><img src="http://habrastorage.org/getpro/habr/post_images/687/aa6/b74/687aa6b74036bf07e26f55bde783b56e.png" alt=""></p>
+<h3 id="u041F_u043E_u0441_u043B_u0435_u0434_u043D_u0438_u0435__u0443_u0432_u0435_u0434_u043E_u043C_u043B_u0435_u043D_u0438_u044F"><a href="#u041F_u043E_u0441_u043B_u0435_u0434_u043D_u0438_u0435__u0443_u0432_u0435_u0434_u043E_u043C_u043B_u0435_u043D_u0438_u044F" class="headerlink" title="Последние уведомления"></a>Последние уведомления</h3><p>Для того, чтобы наше приложение могло получать информацию о непрочитанных сообщениях, уведомлениях, ему нужно предоставить определенные права доступа. В случае с уведомлениями это <code>read_inbox</code>. Ставим его в блоке авторизации приложения:</p>
+<figure class="highlight js"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SE.authenticate(&#123;</span><br><span class="line">    scope: [<span class="string">'read_inbox'</span>],</span><br><span class="line">    ...</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>Данные об уведомлениях мы получим вот тут: <code>https://api.stackexchange.com//2.2/notifications?pagesize=[число последних уведомлений]&amp;key=[ключ приложения]&amp;access_token=[токен доступа пользователя]&amp;callback=[callback-метод]</code></p>
+<p>Мы можем не указывать число последних уведомлений, но тогда мы получим сразу все уведомления. Запрос выполняется аналогично предыдущему, ответ будет примерно таким:</p>
+<figure class="highlight js"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">"items"</span>: [</span><br><span class="line">            <span class="string">"site"</span>: &#123;</span><br><span class="line">                <span class="string">"styling"</span>: &#123;</span><br><span class="line">                    <span class="string">"tag_background_color"</span>: <span class="string">"#FFF"</span>,</span><br><span class="line">                    <span class="string">"tag_foreground_color"</span>: <span class="string">"#000"</span>,</span><br><span class="line">                    <span class="string">"link_color"</span>: <span class="string">"#0077CC"</span></span><br><span class="line">                &#125;,</span><br><span class="line">                <span class="string">"related_sites"</span>: [</span><br><span class="line">                    &#123;</span><br><span class="line">                        <span class="string">"relation"</span>: <span class="string">"meta"</span>,</span><br><span class="line">                        <span class="string">"api_site_parameter"</span>: <span class="string">"meta.reverseengineering"</span>,</span><br><span class="line">                        <span class="string">"site_url"</span>: <span class="string">"http://meta.reverseengineering.stackexchange.com"</span>,</span><br><span class="line">                        <span class="string">"name"</span>: <span class="string">"Reverse Engineering Meta Stack Exchange"</span></span><br><span class="line">                    &#125;,</span><br><span class="line">                    &#123;</span><br><span class="line">                        <span class="string">"relation"</span>: <span class="string">"chat"</span>,</span><br><span class="line">                        <span class="string">"site_url"</span>: <span class="string">"http://chat.stackexchange.com"</span>,</span><br><span class="line">                        <span class="string">"name"</span>: <span class="string">"Chat Stack Exchange"</span></span><br><span class="line">                    &#125;</span><br><span class="line">                ],</span><br><span class="line">                <span class="string">"open_beta_date"</span>: <span class="number">1364774400</span>,</span><br><span class="line">                <span class="string">"closed_beta_date"</span>: <span class="number">1363651200</span>,</span><br><span class="line">                <span class="string">"site_state"</span>: <span class="string">"open_beta"</span>,</span><br><span class="line">                <span class="string">"twitter_account"</span>: <span class="string">"StackReverseEng"</span>,</span><br><span class="line">                <span class="string">"favicon_url"</span>: <span class="string">"http://cdn.sstatic.net/reverseengineering/img/favicon.ico"</span>,</span><br><span class="line">                <span class="string">"icon_url"</span>: <span class="string">"http://cdn.sstatic.net/reverseengineering/img/apple-touch-icon.png"</span>,</span><br><span class="line">                <span class="string">"audience"</span>: <span class="string">"researchers and developers who explore the principles of a system through analysis of its structure, function, and operation"</span>,</span><br><span class="line">                <span class="string">"site_url"</span>: <span class="string">"http://reverseengineering.stackexchange.com"</span>,</span><br><span class="line">                <span class="string">"api_site_parameter"</span>: <span class="string">"reverseengineering"</span>,</span><br><span class="line">                <span class="string">"logo_url"</span>: <span class="string">"http://cdn.sstatic.net/reverseengineering/img/logo.png"</span>,</span><br><span class="line">                <span class="string">"name"</span>: <span class="string">"Reverse Engineering"</span>,</span><br><span class="line">                <span class="string">"site_type"</span>: <span class="string">"main_site"</span></span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="string">"is_unread"</span>: <span class="literal">false</span>,</span><br><span class="line">            <span class="string">"creation_date"</span>: <span class="number">1396197666</span>,</span><br><span class="line">            <span class="string">"notification_type"</span>: <span class="string">"badge_earned"</span>,</span><br><span class="line">            <span class="string">"body"</span>: <span class="string">"You've earned the "</span>Autobiographer<span class="string">" badge."</span></span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    <span class="string">"has_more"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="string">"quota_max"</span>: <span class="number">10000</span>,</span><br><span class="line">    <span class="string">"quota_remaining"</span>: <span class="number">9994</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Как видим, в данном случае система сразу отдает нам массив уведомлений. И с ними достаточно просто работать:</p>
+<figure class="highlight js"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">renderNotifications</span>(<span class="params">data</span>)</span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">var</span> items = data.items;</span><br><span class="line">    <span class="keyword">var</span> html = <span class="string">"&lt;center&gt;Последние уведомления&lt;/center&gt;&lt;br/&gt;"</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; items.length; i ++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">var</span> site = items[i].site.name;</span><br><span class="line">        <span class="keyword">var</span> icon = items[i].site.icon_url;</span><br><span class="line">        <span class="keyword">var</span> body = items[i].body;</span><br><span class="line">        <span class="keyword">var</span> str = <span class="string">"&lt;div class = 'item'&gt;&lt;img src = '"</span> + icon + <span class="string">"' height = '14px' /&gt; "</span> + site + <span class="string">": "</span> + body + <span class="string">"&lt;/div&gt;"</span>;</span><br><span class="line">        html += str;</span><br><span class="line">    &#125;</span><br><span class="line">    $(<span class="string">"#notifications"</span>).html(html);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>В итоге страничка моего маленького приложения приобрела вот такой окончательный вид:</p>
+<p><img src="http://habrastorage.org/getpro/habr/post_images/fff/f2a/096/ffff2a096c4e34e9d927f65f026284db.png" alt=""></p>
+<p>А вот собственно фрейм, с которым можно “поиграть”:</p>
+<iframe width="100%" height="300" src="http://jsfiddle.net/asaskevich/6F5kd/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+<h3 id="u0418__u0447_u0442_u043E__u0442_u0435_u043F_u0435_u0440_u044C_3F"><a href="#u0418__u0447_u0442_u043E__u0442_u0435_u043F_u0435_u0440_u044C_3F" class="headerlink" title="И что теперь?"></a>И что теперь?</h3><p>API сети Stack Exchange позволяет нам не только получать уведомления или данные профиля. Мы также можем получить вопросы, комментарии, теги, причем мы сможем также взаимодействовать с ними (добавлять вопросы, редактировать свои комментарии). Мы можем работать с профилем пользователя, событиями и статистикой.</p>
+<p>Кстати о статистике — в панели управления приложением можно просмотреть статистику авторизаций и запросов в виде графиков. И да, стоит иметь ввиду, что число запросов, которое может сделать приложение к отдельной функции, ограничено десятью тысячами. Оставшееся число запросов пересылается нам вместе с JSON ответом в поле <code>«quota_remaining»</code>.</p>
+<p>В документации также можно будет поэкспериментировать с запросами. Для этого StackExchange предлагает консоль, которую можно найти под описанием каждой функции.</p>
+<h3 id="C_u0441_u044B_u043B_u043A_u0438"><a href="#C_u0441_u044B_u043B_u043A_u0438" class="headerlink" title="Cсылки"></a>Cсылки</h3><ul>
+<li><a href="http://api.stackexchange.com/docs" target="_blank" rel="external">Документация</a></li>
+<li><a href="http://stackapps.com/apps/oauth" target="_blank" rel="external">Панель управления приложениями</a></li>
+<li><a href="http://jsfiddle.net/asaskevich/6F5kd/embedded/result/" target="_blank" rel="external">Приложение в действии</a></li>
+</ul>
+<h3 id="u041C_u0430_u043B_u0435_u043D_u044C_u043A_u0430_u044F__u0437_u0430_u043C_u0435_u0442_u043A_u0430"><a href="#u041C_u0430_u043B_u0435_u043D_u044C_u043A_u0430_u044F__u0437_u0430_u043C_u0435_u0442_u043A_u0430" class="headerlink" title="Маленькая заметка"></a>Маленькая заметка</h3><p>В оргиниале данная запись была опубликована <a href="http://habrahabr.ru/post/217753/" target="_blank" rel="external">тут</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://asaskevich.github.io/2014/08/11/js--api-stackexchange-api--/" data-id="cijaetsc8001zh4uohiwn64wt" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/08/12/js-backbonejs-say-hello/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          JS: Backbone.js, say Hello
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/08/10/clojure--/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Clojure: типы данных</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/API/">API</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/API/Go/">Go</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/API/Go/Cryptography/">Cryptography</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/API/Go/Walk/">Walk</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/API/Java/">Java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/API/Java/Jsoup/">Jsoup</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/API/JavaScript/">JavaScript</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/API/JavaScript/StackExchange/">StackExchange</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/API/Python/">Python</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/API/Python/Flask/">Flask</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Backbone/">Backbone</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Backbone/JavaScript/">JavaScript</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Backbone/JavaScript/Routers/">Routers</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/CSS/">CSS</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CSS/HTML/">HTML</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CSS/HTML/Design/">Design</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Clojure/">Clojure</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Clojure/Newbie/">Newbie</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Clojure/Newbie/Functional/">Functional</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Concurrency/">Concurrency</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Concurrency/Actors/">Actors</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Concurrency/Actors/Scala/">Scala</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Deployment/">Deployment</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Deployment/Heroku/">Heroku</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Deployment/Heroku/Go/">Go</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Go/">Go</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Go/API/">API</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Go/API/Validation/">Validation</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Grunt/">Grunt</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Grunt/JavaScript/">JavaScript</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/C/">C</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/C/C/">C++</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/C/C/JNI/">JNI</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/C/GCJ/">GCJ</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/Useful/">Useful</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/Useful/Moment-js/">Moment.js</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Material-Design/">Material Design</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Material-Design/Angular-js/">Angular.js</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Material-Design/Angular-js/JavaScript/">JavaScript</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Minecraft/">Minecraft</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Minecraft/Forge/">Forge</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Minecraft/Forge/Modding/">Modding</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Minecraft/Forge/Modding/API/">API</a></li></ul></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/">Newbie</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/Clojure/">Clojure</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/Clojure/Functional/">Functional</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/Clojure/Functional/Data-Structures/">Data Structures</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/JavaScript/">JavaScript</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/JavaScript/Backbone-js/">Backbone.js</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/Jekyll/">Jekyll</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/Node-js/">Node.js</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/Node-js/Sails-js/">Sails.js</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/Node-js/Sails-js/Backbone-js/">Backbone.js</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/Octopress/">Octopress</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Scala/">Scala</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Scala/Traits/">Traits</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/localStorage/">localStorage</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/localStorage/localForage/">localForage</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/localStorage/localForage/indexedDB/">indexedDB</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/localStorage/localForage/indexedDB/webSql/">webSql</a></li></ul></li></ul></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2015/04/21/localforage-khranim-dannyie-offline-biez-gholovnoi-boli-udobnaia-abstraktsiia-nad-indexeddb/">localForage – храним данные offline без головной боли. Удобная абстракция над IndexedDB</a>
+          </li>
+        
+          <li>
+            <a href="/2015/02/09/validatsiia-dannykh-v-go-pri-pomoshchi-govalidator/">Валидация данных в Go при помощи govalidator</a>
+          </li>
+        
+          <li>
+            <a href="/2015/02/08/minecraft-forge-kastomnyie-tieksty-v-gui-kontieinierov/">Minecraft Forge: кастомные тексты в GUI контейнеров</a>
+          </li>
+        
+          <li>
+            <a href="/2015/02/07/material-design-vmiestie-s-angular-dot-js/">Material Design вместе с Angular.js</a>
+          </li>
+        
+          <li>
+            <a href="/2014/09/03/moment-dot-js-rabota-s-datami-v-javascript/">Moment.js: работа с датами в JavaScript</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 Alex Saskevich<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>

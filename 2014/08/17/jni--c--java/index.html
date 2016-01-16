@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>JNI: объединяем C и Java | Some Useful Notes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Когда обычных средств Java не хватает, на помощь приходит JNI, который я описал вкратце в данной статье.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JNI: объединяем C и Java">
+<meta property="og:url" content="http://asaskevich.github.io/2014/08/17/jni--c--java/index.html">
+<meta property="og:site_name" content="Some Useful Notes">
+<meta property="og:description" content="Когда обычных средств Java не хватает, на помощь приходит JNI, который я описал вкратце в данной статье.">
+<meta property="og:updated_time" content="2015-04-21T09:53:12.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JNI: объединяем C и Java">
+<meta name="twitter:description" content="Когда обычных средств Java не хватает, на помощь приходит JNI, который я описал вкратце в данной статье.">
+  
+    <link rel="alternate" href="/atom.xml" title="Some Useful Notes" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Some Useful Notes</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Short notes from Alex Saskevich</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://asaskevich.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-jni--c--java" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/08/17/jni--c--java/" class="article-date">
+  <time datetime="2014-08-16T21:00:00.000Z" itemprop="datePublished">2014-08-17</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>►<a class="article-category-link" href="/categories/Java/C/">C</a>►<a class="article-category-link" href="/categories/Java/C/C/">C++</a>►<a class="article-category-link" href="/categories/Java/C/C/JNI/">JNI</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      JNI: объединяем C и Java
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Что такое JNI?</p>
+<blockquote>
+<p>Java Native Interface (JNI) — стандартный механизм для запуска кода, который написан на языках С/С++ или Ассемблера, и скомпонован в виде динамических библиотек, позволяет не использовать статическое связывание. Это даёт возможность вызова функции С/С++ из программы на Java, и наоборот.</p>
+</blockquote>
+<p>Если говорить кратко, JNI - механизм, связывающий Java и C/C++ в одно целое.</p>
+<a id="more"></a>
+<h3 id="u041A_u0430_u043A__u043F_u043E_u043B_u044C_u0437_u043E_u0432_u0430_u0442_u044C_u0441_u044F_3A_Java"><a href="#u041A_u0430_u043A__u043F_u043E_u043B_u044C_u0437_u043E_u0432_u0430_u0442_u044C_u0441_u044F_3A_Java" class="headerlink" title="Как пользоваться: Java"></a>Как пользоваться: Java</h3><p>Со стороны Java нам нужно описать класс, загружающий динамическую библиотеку и имеющий в себе описание функций, расположенных в библиотеке:</p>
+<figure class="highlight java"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">System.loadLibrary(<span class="string">"Library"</span>); <span class="comment">// Будет загружать Library.o или Library.dll в зависимости от ОС</span></span><br><span class="line">...</span><br><span class="line"><span class="comment">// Данные функции объявлены с модификатором native</span></span><br><span class="line"><span class="comment">// Это значит, что они расположены в динамической библиотеке</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title">libraryFunc</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">native</span> <span class="keyword">int</span> <span class="title">libraryFunc</span><span class="params">(<span class="keyword">int</span> x)</span></span>;</span><br></pre></td></tr></table></figure>
+<h3 id="u041A_u0430_u043A__u043F_u043E_u043B_u044C_u0437_u043E_u0432_u0430_u0442_u044C_u0441_u044F_3A__u0421"><a href="#u041A_u0430_u043A__u043F_u043E_u043B_u044C_u0437_u043E_u0432_u0430_u0442_u044C_u0441_u044F_3A__u0421" class="headerlink" title="Как пользоваться: С"></a>Как пользоваться: С</h3><p>Следующим этапом необходимо создать заголовочный файл библиотеки для дальнейшей работы с динамической библиотекой:</p>
+<figure class="highlight bash"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">javac -g Main.java</span><br><span class="line">javah -jni Main</span><br></pre></td></tr></table></figure>
+<p>После выполнения данных команд в терминале мы получим файл <code>Main.h</code> примерно такого содержания:</p>
+<figure class="highlight cpp"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* DO NOT EDIT THIS FILE - it is machine generated */</span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;jni.h&gt;</span></span></span><br><span class="line"><span class="comment">/* Header for class Main */</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#<span class="keyword">ifndef</span> _Included_Main</span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">define</span> _Included_Main</span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">ifdef</span> __cplusplus</span></span><br><span class="line"><span class="keyword">extern</span> <span class="string">"C"</span> &#123;</span><br><span class="line"><span class="preprocessor">#<span class="keyword">endif</span></span></span><br><span class="line"><span class="comment">/*</span><br><span class="line"> * Class:     Main</span><br><span class="line"> * Method:    libraryFunc</span><br><span class="line"> * Signature: ()V</span><br><span class="line"> */</span></span><br><span class="line"><span class="function">JNIEXPORT <span class="keyword">void</span> JNICALL <span class="title">Java_Main_libraryFunc</span></span><br><span class="line">  <span class="params">(JNIEnv *, jclass)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#<span class="keyword">ifdef</span> __cplusplus</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="preprocessor">#<span class="keyword">endif</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+<p>Как видим, в нашем заголовочном файле уже описана функция <code>Java_Main_libraryFunc</code>, которая расположена в классе <code>Main</code> и называется <code>libraryFunc</code>. В динамической библиотеке функция принимает дополнительные аргументы - окружение и класс.<br>Переходим к файлу <code>Main.c</code>, в котором опишем реализацию функции <code>Java_Main_libraryFunc</code>:</p>
+<figure class="highlight cpp"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;jni.h&gt;</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">"Main.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="function">JNIEXPORT <span class="keyword">void</span> JNICALL <span class="title">Java_Main_libraryFunc</span><span class="params">(JNIEnv *env, jobject obj)</span> </span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"Native code executed!\n"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Теперь этот небольшой модуль нужно скомпилировать в динамическую библиотеку:</p>
+<figure class="highlight bash"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -std=c99 -Wl,--add-stdcall-alias -I<span class="string">"&lt;JAVA_HOME&gt;\include"</span> -I<span class="string">"&lt;JAVA_HOME&gt;\include\win32"</span> -shared -o Library.dll</span><br></pre></td></tr></table></figure>
+<p>Также нужно иметь ввиду, что разрядность библиотеки должна быть такой же, как и разрядность JVM.</p>
+<h3 id="u0421_u0432_u044F_u0437_u044B_u0432_u0430_u0435_u043C__u0432_u043C_u0435_u0441_u0442_u0435"><a href="#u0421_u0432_u044F_u0437_u044B_u0432_u0430_u0435_u043C__u0432_u043C_u0435_u0441_u0442_u0435" class="headerlink" title="Связываем вместе"></a>Связываем вместе</h3><p>После того, как библиотека скомпилирована, достаточно загрузить ее и вызвать нужную функцию:</p>
+<figure class="highlight java"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">System.loadLibrary(<span class="string">"Library"</span>);</span><br><span class="line">libraryFunc();</span><br></pre></td></tr></table></figure>
+<h3 id="u0417_u0430_u043A_u043B_u044E_u0447_u0435_u043D_u0438_u0435"><a href="#u0417_u0430_u043A_u043B_u044E_u0447_u0435_u043D_u0438_u0435" class="headerlink" title="Заключение"></a>Заключение</h3><p>JNI - отличное средство для более близкого взаимодействия с системой. Все, что нельзя сделать средствами чистой Java, можно сделать на С/С++ и вызвать из Java. Единственным вопросом остается производительность - в каких случаях стоит обратиться к нативному коду, а в каких достаточно воспользоваться стандартными средствами.</p>
+<h3 id="u0421_u0441_u044B_u043B_u043A_u0438"><a href="#u0421_u0441_u044B_u043B_u043A_u0438" class="headerlink" title="Ссылки"></a>Ссылки</h3><ul>
+<li><a href="http://docs.oracle.com/javase/6/docs/technotes/guides/jni/" target="_blank" rel="external">Java Native Interface</a></li>
+<li><a href="https://www3.ntu.edu.sg/home/ehchua/programming/java/JavaNativeInterface.html" target="_blank" rel="external">JNI - Tutorial</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://asaskevich.github.io/2014/08/17/jni--c--java/" data-id="cijaetsbr001eh4uorxlgow8b" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/08/18/jekyll--/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Jekyll: создание блога
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/08/14/js-sailsjs--backbonejs--hello-todo/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">JS: Sails.js + Backbone.js = Hello, TODO</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/API/">API</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/API/Go/">Go</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/API/Go/Cryptography/">Cryptography</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/API/Go/Walk/">Walk</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/API/Java/">Java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/API/Java/Jsoup/">Jsoup</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/API/JavaScript/">JavaScript</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/API/JavaScript/StackExchange/">StackExchange</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/API/Python/">Python</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/API/Python/Flask/">Flask</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Backbone/">Backbone</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Backbone/JavaScript/">JavaScript</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Backbone/JavaScript/Routers/">Routers</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/CSS/">CSS</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CSS/HTML/">HTML</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CSS/HTML/Design/">Design</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Clojure/">Clojure</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Clojure/Newbie/">Newbie</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Clojure/Newbie/Functional/">Functional</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Concurrency/">Concurrency</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Concurrency/Actors/">Actors</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Concurrency/Actors/Scala/">Scala</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Deployment/">Deployment</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Deployment/Heroku/">Heroku</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Deployment/Heroku/Go/">Go</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Go/">Go</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Go/API/">API</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Go/API/Validation/">Validation</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Grunt/">Grunt</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Grunt/JavaScript/">JavaScript</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/C/">C</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/C/C/">C++</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/C/C/JNI/">JNI</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/C/GCJ/">GCJ</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/Useful/">Useful</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/Useful/Moment-js/">Moment.js</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Material-Design/">Material Design</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Material-Design/Angular-js/">Angular.js</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Material-Design/Angular-js/JavaScript/">JavaScript</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Minecraft/">Minecraft</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Minecraft/Forge/">Forge</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Minecraft/Forge/Modding/">Modding</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Minecraft/Forge/Modding/API/">API</a></li></ul></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/">Newbie</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/Clojure/">Clojure</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/Clojure/Functional/">Functional</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/Clojure/Functional/Data-Structures/">Data Structures</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/JavaScript/">JavaScript</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/JavaScript/Backbone-js/">Backbone.js</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/Jekyll/">Jekyll</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/Node-js/">Node.js</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/Node-js/Sails-js/">Sails.js</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/Node-js/Sails-js/Backbone-js/">Backbone.js</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/Octopress/">Octopress</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Scala/">Scala</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Scala/Traits/">Traits</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/localStorage/">localStorage</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/localStorage/localForage/">localForage</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/localStorage/localForage/indexedDB/">indexedDB</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/localStorage/localForage/indexedDB/webSql/">webSql</a></li></ul></li></ul></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2015/04/21/localforage-khranim-dannyie-offline-biez-gholovnoi-boli-udobnaia-abstraktsiia-nad-indexeddb/">localForage – храним данные offline без головной боли. Удобная абстракция над IndexedDB</a>
+          </li>
+        
+          <li>
+            <a href="/2015/02/09/validatsiia-dannykh-v-go-pri-pomoshchi-govalidator/">Валидация данных в Go при помощи govalidator</a>
+          </li>
+        
+          <li>
+            <a href="/2015/02/08/minecraft-forge-kastomnyie-tieksty-v-gui-kontieinierov/">Minecraft Forge: кастомные тексты в GUI контейнеров</a>
+          </li>
+        
+          <li>
+            <a href="/2015/02/07/material-design-vmiestie-s-angular-dot-js/">Material Design вместе с Angular.js</a>
+          </li>
+        
+          <li>
+            <a href="/2014/09/03/moment-dot-js-rabota-s-datami-v-javascript/">Moment.js: работа с датами в JavaScript</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 Alex Saskevich<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>

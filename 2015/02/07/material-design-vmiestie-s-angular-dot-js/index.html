@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Material Design вместе с Angular.js | Some Useful Notes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="С выходом в свет новой версии Android 5.0, названной Lollipop, компания Google представила новое видение дизайна пользовательского интерфейса - Google Material Design. Вслед за появлением спецификации">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Material Design вместе с Angular.js">
+<meta property="og:url" content="http://asaskevich.github.io/2015/02/07/material-design-vmiestie-s-angular-dot-js/index.html">
+<meta property="og:site_name" content="Some Useful Notes">
+<meta property="og:description" content="С выходом в свет новой версии Android 5.0, названной Lollipop, компания Google представила новое видение дизайна пользовательского интерфейса - Google Material Design. Вслед за появлением спецификации">
+<meta property="og:updated_time" content="2016-01-11T20:54:02.759Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Material Design вместе с Angular.js">
+<meta name="twitter:description" content="С выходом в свет новой версии Android 5.0, названной Lollipop, компания Google представила новое видение дизайна пользовательского интерфейса - Google Material Design. Вслед за появлением спецификации">
+  
+    <link rel="alternate" href="/atom.xml" title="Some Useful Notes" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Some Useful Notes</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Short notes from Alex Saskevich</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://asaskevich.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-material-design-vmiestie-s-angular-dot-js" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/02/07/material-design-vmiestie-s-angular-dot-js/" class="article-date">
+  <time datetime="2015-02-07T18:37:30.000Z" itemprop="datePublished">2015-02-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Material-Design/">Material Design</a>►<a class="article-category-link" href="/categories/Material-Design/Angular-js/">Angular.js</a>►<a class="article-category-link" href="/categories/Material-Design/Angular-js/JavaScript/">JavaScript</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Material Design вместе с Angular.js
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>С выходом в свет новой версии Android 5.0, названной Lollipop, компания Google представила новое видение дизайна пользовательского интерфейса - <a href="http://www.google.com/design/" target="_blank" rel="external">Google Material Design</a>. Вслед за появлением <a href="http://www.google.com/design/spec/material-design/introduction.html" target="_blank" rel="external">спецификации</a> разработчики привнесли немного “материальности” в свои фреймворки, такие как Angular.js, React.js, даже всем известный Twitter Bootstrap <a href="https://fezvrasta.github.io/bootstrap-material-design/" target="_blank" rel="external">сделали “материальным”</a>.</p>
+<p>В связи с этим хотелось бы рассмотреть, как же такие известные фреймворки внедряют поддержку Material Design. Рассмотрим это на примере Angular.js.</p>
+<a id="more"></a>
+<h4 id="u0423_u0441_u0442_u0430_u043D_u043E_u0432_u043A_u0430"><a href="#u0423_u0441_u0442_u0430_u043D_u043E_u0432_u043A_u0430" class="headerlink" title="Установка"></a>Установка</h4><p>Установка ничем не отличается от установки большинства пакетов - нам достаточно иметь установленный bower:<br><figure class="highlight bash"><figcaption><span>Sample Code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bower install angular-material</span><br></pre></td></tr></table></figure></p>
+<p>Такой способ гораздо предпочтительнее, хотя есть вариант с использованием CDN. С ним мы можем попробовать поэкспериментировать прямо в CodePen или JSFiddle:<br><figure class="highlight html"><figcaption><span>Sample Code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">link</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">href</span>=<span class="value">"//ajax.googleapis.com/ajax/libs/angular_material/0.7.0/angular-material.min.css"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">body</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- Некоторый HTML код --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"//ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"//ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular-animate.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"//ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular-aria.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"//ajax.googleapis.com/ajax/libs/angular_material/0.7.0/angular-material.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">body</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="u0420_u0430_u0437_u043C_u0435_u0442_u043A_u0430"><a href="#u0420_u0430_u0437_u043C_u0435_u0442_u043A_u0430" class="headerlink" title="Разметка"></a>Разметка</h4><p>В данном случае разметка построена на современном flexbox’е, что, несомненно, является подспорьем в мире адаптивных сайтов. Фремворк вводит специальные теги и атрибуты, при помощи которых можно построить нужный нам интерфейс. Так, для разметки используется тег <code>div</code> с различными атрибутами, например <code>layout</code> или <code>flex</code>.</p>
+<h4 id="u041A_u043E_u043C_u043F_u043E_u043D_u0435_u043D_u0442_u044B"><a href="#u041A_u043E_u043C_u043F_u043E_u043D_u0435_u043D_u0442_u044B" class="headerlink" title="Компоненты"></a>Компоненты</h4><p>Фреймворк предлагает к использованию различные компоненты - кнопки, поля ввода, радио-кнопки, вкладки, сайд-бары, подсказки и тому-подобное. В каждый из них мы вникать не будем, мы только рассмотрим общую структуру построения приложения с использованием Material Angular.</p>
+<h4 id="u0427_u0442_u043E__u0436_u0435__u043F_u043E_u043F_u0440_u043E_u0431_u0443_u0435_u043C__u0441_u043E_u0437_u0434_u0430_u0442_u044C_3F"><a href="#u0427_u0442_u043E__u0436_u0435__u043F_u043E_u043F_u0440_u043E_u0431_u0443_u0435_u043C__u0441_u043E_u0437_u0434_u0430_u0442_u044C_3F" class="headerlink" title="Что же попробуем создать?"></a>Что же попробуем создать?</h4><p>А попробуем мы вот что: мы напишем маленькое, но практичное приложение - простейшую анкету пользователей. Действовать она будет примерно так - две вкладки, в одной поля ввода отдельного человека, во второй вкладке список введенных пользователей.</p>
+<h4 id="u0424_u043E_u0440_u043C_u0438_u0440_u0443_u0435_u043C__u0440_u0430_u0437_u043C_u0435_u0442_u043A_u0443"><a href="#u0424_u043E_u0440_u043C_u0438_u0440_u0443_u0435_u043C__u0440_u0430_u0437_u043C_u0435_u0442_u043A_u0443" class="headerlink" title="Формируем разметку"></a>Формируем разметку</h4><p>Первым делом опишем две вкладки и основу приложения. Приложение мы создаем стандартно - ничего особенного в нем нету:<br><figure class="highlight javascript"><figcaption><span>Sample Code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> app = angular.module(<span class="string">'app'</span>, [<span class="string">'ngMaterial'</span>]);</span><br><span class="line">app.controller(<span class="string">'AppCtrl'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">$scope</span>) </span>&#123; &#125;);</span><br></pre></td></tr></table></figure></p>
+<p>Теперь описываем <code>div</code>, к которому будет привязано приложение и контроллер. Внутри него разместим вкладки <code>md-tabs</code>, а также <code>ng-switch</code>, который будет описывать содержимое каждой вкладки отдельно. Также сделаем привязку к модели <code>data.selectedIndex</code>, чтобы иметь возможность контролировать текущую вкладку:<br><figure class="highlight html"><figcaption><span>Sample Code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">div</span> <span class="attribute">ng-app</span>=<span class="value">"app"</span> <span class="attribute">ng-controller</span>=<span class="value">"AppCtrl"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">md-tabs</span> <span class="attribute">md-selected</span>=<span class="value">"data.selectedIndex"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">md-tab</span> <span class="attribute">id</span>=<span class="value">"tab1"</span> <span class="attribute">aria-controls</span>=<span class="value">"tab1-content"</span>&gt;</span></span><br><span class="line">            Ввод анкеты</span><br><span class="line">        <span class="tag">&lt;/<span class="title">md-tab</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">md-tab</span> <span class="attribute">id</span>=<span class="value">"tab2"</span> <span class="attribute">aria-controls</span>=<span class="value">"tab2-content"</span>&gt;</span></span><br><span class="line">            Список пользователей</span><br><span class="line">        <span class="tag">&lt;/<span class="title">md-tab</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">md-tabs</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">ng-switch</span> <span class="attribute">on</span>=<span class="value">"data.selectedIndex"</span> <span class="attribute">class</span>=<span class="value">"tabpanel-container"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">div</span> <span class="attribute">role</span>=<span class="value">"tabpanel"</span> <span class="attribute">id</span>=<span class="value">"tab1-content"</span> <span class="attribute">aria-labelledby</span>=<span class="value">"tab1"</span> <span class="attribute">ng-switch-when</span>=<span class="value">"0"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">div</span> <span class="attribute">role</span>=<span class="value">"tabpanel"</span> <span class="attribute">id</span>=<span class="value">"tab2-content"</span> <span class="attribute">aria-labelledby</span>=<span class="value">"tab2"</span> <span class="attribute">ng-switch-when</span>=<span class="value">"1"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">ng-switch</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">div</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>Я думаю, вы заметили, что элементы с префиксом <code>md-</code> относятся к Material Design, а <code>ng-</code> - стандартные элементы Angular.</p>
+<p>Теперь опишем поля ввода для первой вкладки. Для этого воспользуемся тегом <code>md-whiteframe</code> для создания пустого окна, а в нем разместим непосредственно поля ввода, как на примере ниже:<br><figure class="highlight html"><figcaption><span>Sample Code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">md-input-container</span> <span class="attribute">flex</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">label</span>&gt;</span>Адрес<span class="tag">&lt;/<span class="title">label</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">input</span> <span class="attribute">ng-model</span>=<span class="value">"user.address"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">md-input-container</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>На самом деле кода получается гораздо больше, однако там везде все аналогично - создается контейнер, метка и поле ввода, создается привязка к модели и вуа-ля!</p>
+<p>Легко добавить проверку данных. Так, например, мы легко можем добавить ограничение по длине вводимого текста:<br><figure class="highlight html"><figcaption><span>Sample Code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">input</span> <span class="attribute">md-maxlength</span>=<span class="value">"20"</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>Добавим кнопку сохранения данных:<br><figure class="highlight html"><figcaption><span>Sample Code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">md-button</span> <span class="attribute">class</span>=<span class="value">"md-fab md-primary"</span> <span class="attribute">aria-label</span>=<span class="value">"Сохранить"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">md-icon</span> <span class="attribute">icon</span>=<span class="value">"//material.angularjs.org/img/icons/ic_insert_drive_file_24px.svg"</span> <span class="attribute">style</span>=<span class="value">"width: 24px; height: 24px;"</span>&gt;</span><span class="tag">&lt;/<span class="title">md-icon</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">md-button</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>Для этой кнопки нам необходимо описать в контроллере функцию <code>save</code>, а также добавить прикрепить ее к самой кнопке:<br><figure class="highlight javascript"><figcaption><span>Sample Code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">app.controller(<span class="string">'AppCtrl'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">$scope</span>)</span>&#123;</span><br><span class="line">  $scope.save = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight html"><figcaption><span>Sample Code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">md-button</span> <span class="attribute">...</span> <span class="attribute">ng-click</span>=<span class="value">"save()"</span>&gt;</span> ...</span><br></pre></td></tr></table></figure>
+<h4 id="u041A_u043E_u043D_u0442_u0440_u043E_u043B_u043B_u0435_u0440"><a href="#u041A_u043E_u043D_u0442_u0440_u043E_u043B_u043B_u0435_u0440" class="headerlink" title="Контроллер"></a>Контроллер</h4><p>Собственно теперь нам необходимо реализовать базовый функционал контроллера <code>AppCtrl</code>. Все делается стандартно, ничего неожиданного тут нету. Мой контроллер выглядит примерно так:<br><figure class="highlight javascript"><figcaption><span>Sample Code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">app.controller(<span class="string">'AppCtrl'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">$scope</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// Модели полей ввода</span></span><br><span class="line">    $scope.user = &#123;</span><br><span class="line">        firstName: <span class="string">''</span>,</span><br><span class="line">        lastName: <span class="string">''</span>,</span><br><span class="line">        address: <span class="string">''</span>,</span><br><span class="line">        state: <span class="string">''</span>,</span><br><span class="line">        postalCode: <span class="string">''</span></span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="comment">// Список введенных и сохраненных анкет</span></span><br><span class="line">    $scope.users = [];</span><br><span class="line">    <span class="comment">// Функция сохранения</span></span><br><span class="line">    $scope.save = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        $scope.users.push($scope.user);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<h4 id="u0412_u044B_u0432_u043E_u0434__u0441_u043F_u0438_u0441_u043A_u0430__u043F_u043E_u043B_u044C_u0437_u043E_u0432_u0430_u0442_u0435_u043B_u0435_u0439"><a href="#u0412_u044B_u0432_u043E_u0434__u0441_u043F_u0438_u0441_u043A_u0430__u043F_u043E_u043B_u044C_u0437_u043E_u0432_u0430_u0442_u0435_u043B_u0435_u0439" class="headerlink" title="Вывод списка пользователей"></a>Вывод списка пользователей</h4><p>После того, как мы реализовали контроллер на сохранение анкет, нам надо реализовать их вывод. Поддержка “материальных” списков реализуется при помощи тегов <code>md-list</code> и <code>md-item</code>, а сам Angular предлагает атрибут <code>ng-repeat</code>, которым запросто можно пробежать по всем элементам некоторого списка. Реализуем вывод списка:</p>
+
+<!--￼10-->
+
+
+<p>Теперь реализуем кнопку удаления отдельного элемента. Material Angular вводит поддержку специальных сервисов, таких как диалоги, подсказки. Реализуем диалог подтверждения удаления пользователя. С этим нам поможет сервис <code>$mdDialog</code>, предлагающий несколько вариантов модальных окон. Помимо этого он позволяет нам реализовать свое модальное окно. Здорово, не правда ли? Подключим к кнопке удаления функцию <code>delete</code>:<br><figure class="highlight html"><figcaption><span>Sample Code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">md-button</span> <span class="attribute">class</span>=<span class="value">"md-raised md-warn"</span> <span class="attribute">ng-click</span>=<span class="value">"delete($index, $event)"</span>&gt;</span>Удалить<span class="tag">&lt;/<span class="title">md-button</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>В функцию будет передаваться индекс выбираемого элемента и событие, которое мы отдадим сервису. Реализуем функцию <code>delete</code>. Диалоговое окно создается весьма просто - создается объект и путем последовательного применения нужных команд этот самый объект настраивается:<br><figure class="highlight javascript"><figcaption><span>Sample Code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$scope.delete = <span class="function"><span class="keyword">function</span>(<span class="params">index, ev</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> confirm = $mdDialog.confirm()</span><br><span class="line">        .title(<span class="string">'Вы желаете удалить данного пользователя'</span>)</span><br><span class="line">        .content(<span class="string">'В случае согласия данные будут полностью удалены из списка.'</span>)</span><br><span class="line">        .ok(<span class="string">'Удалить!'</span>)</span><br><span class="line">        .cancel(<span class="string">'Отменить'</span>)</span><br><span class="line">        .targetEvent(ev);</span><br><span class="line">    $mdDialog.show(confirm).then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        $scope.users.splice(index, <span class="number">1</span>);</span><br><span class="line">    &#125;, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>После того,как объект был создан, его можно вызвать,указав колбэк-функции, которые будут вызваны в случае нажатия одной из кнопок.<br>Собственно теперь весь основной функционал реализован и можно заняться внедрением своих “фич” и стилизацией. Однако, если вы хотите, чтобы вся “материальность” была сохранена, то вам стоит почитать официальную спецификацию.</p>
+<h4 id="u0420_u0435_u0437_u0443_u043B_u044C_u0442_u0430_u0442"><a href="#u0420_u0435_u0437_u0443_u043B_u044C_u0442_u0430_u0442" class="headerlink" title="Результат"></a>Результат</h4><p></p><p data-height="346" data-theme-id="0" data-slug-hash="myMyXx" data-default-tab="result" data-user="asaskevich" class="codepen">See the Pen <a href="http://codepen.io/asaskevich/pen/myMyXx/" target="_blank" rel="external">myMyXx</a> by Alex Saskevich (<a href="http://codepen.io/asaskevich" target="_blank" rel="external">@asaskevich</a>) on <a href="http://codepen.io" target="_blank" rel="external">CodePen</a>.</p><p></p>
+<script async src="//assets.codepen.io/assets/embed/ei.js"></script>
+
+<h4 id="u0412__u0437_u0430_u0432_u0435_u0440_u0448_u0435_u043D_u0438_u0435"><a href="#u0412__u0437_u0430_u0432_u0435_u0440_u0448_u0435_u043D_u0438_u0435" class="headerlink" title="В завершение"></a>В завершение</h4><p>Собственно это все, что я хотел показать, весь код статьи расположен на CodePen вот тут: <a href="http://codepen.io/asaskevich/pen/myMyXx" target="_blank" rel="external">http://codepen.io/asaskevich/pen/myMyXx</a>. Ну а сам Angular Material Design вместе с примерами и документацией расположен тут: <a href="https://material.angularjs.org" target="_blank" rel="external">https://material.angularjs.org</a>.</p>
+<h4 id="u041C_u0430_u043B_u0435_u043D_u044C_u043A_u0430_u044F__u0437_u0430_u043C_u0435_u0442_u043A_u0430"><a href="#u041C_u0430_u043B_u0435_u043D_u044C_u043A_u0430_u044F__u0437_u0430_u043C_u0435_u0442_u043A_u0430" class="headerlink" title="Маленькая заметка"></a>Маленькая заметка</h4><p>Данная статья была первоначально опубликована вот <a href="http://html5.by/blog/material-design-and-angular-js/" target="_blank" rel="external">здесь</a>.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://asaskevich.github.io/2015/02/07/material-design-vmiestie-s-angular-dot-js/" data-id="cijaetsb0000eh4uoi9wy0gtm" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/02/08/minecraft-forge-kastomnyie-tieksty-v-gui-kontieinierov/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Minecraft Forge: кастомные тексты в GUI контейнеров
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/09/03/moment-dot-js-rabota-s-datami-v-javascript/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Moment.js: работа с датами в JavaScript</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/API/">API</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/API/Go/">Go</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/API/Go/Cryptography/">Cryptography</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/API/Go/Walk/">Walk</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/API/Java/">Java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/API/Java/Jsoup/">Jsoup</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/API/JavaScript/">JavaScript</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/API/JavaScript/StackExchange/">StackExchange</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/API/Python/">Python</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/API/Python/Flask/">Flask</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Backbone/">Backbone</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Backbone/JavaScript/">JavaScript</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Backbone/JavaScript/Routers/">Routers</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/CSS/">CSS</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CSS/HTML/">HTML</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CSS/HTML/Design/">Design</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Clojure/">Clojure</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Clojure/Newbie/">Newbie</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Clojure/Newbie/Functional/">Functional</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Concurrency/">Concurrency</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Concurrency/Actors/">Actors</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Concurrency/Actors/Scala/">Scala</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Deployment/">Deployment</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Deployment/Heroku/">Heroku</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Deployment/Heroku/Go/">Go</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Go/">Go</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Go/API/">API</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Go/API/Validation/">Validation</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Grunt/">Grunt</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Grunt/JavaScript/">JavaScript</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/C/">C</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/C/C/">C++</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/C/C/JNI/">JNI</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/C/GCJ/">GCJ</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/Useful/">Useful</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/Useful/Moment-js/">Moment.js</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Material-Design/">Material Design</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Material-Design/Angular-js/">Angular.js</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Material-Design/Angular-js/JavaScript/">JavaScript</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Minecraft/">Minecraft</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Minecraft/Forge/">Forge</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Minecraft/Forge/Modding/">Modding</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Minecraft/Forge/Modding/API/">API</a></li></ul></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/">Newbie</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/Clojure/">Clojure</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/Clojure/Functional/">Functional</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/Clojure/Functional/Data-Structures/">Data Structures</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/JavaScript/">JavaScript</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/JavaScript/Backbone-js/">Backbone.js</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/Jekyll/">Jekyll</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/Node-js/">Node.js</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/Node-js/Sails-js/">Sails.js</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/Node-js/Sails-js/Backbone-js/">Backbone.js</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/Octopress/">Octopress</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Scala/">Scala</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Scala/Traits/">Traits</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/localStorage/">localStorage</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/localStorage/localForage/">localForage</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/localStorage/localForage/indexedDB/">indexedDB</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/localStorage/localForage/indexedDB/webSql/">webSql</a></li></ul></li></ul></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2015/04/21/localforage-khranim-dannyie-offline-biez-gholovnoi-boli-udobnaia-abstraktsiia-nad-indexeddb/">localForage – храним данные offline без головной боли. Удобная абстракция над IndexedDB</a>
+          </li>
+        
+          <li>
+            <a href="/2015/02/09/validatsiia-dannykh-v-go-pri-pomoshchi-govalidator/">Валидация данных в Go при помощи govalidator</a>
+          </li>
+        
+          <li>
+            <a href="/2015/02/08/minecraft-forge-kastomnyie-tieksty-v-gui-kontieinierov/">Minecraft Forge: кастомные тексты в GUI контейнеров</a>
+          </li>
+        
+          <li>
+            <a href="/2015/02/07/material-design-vmiestie-s-angular-dot-js/">Material Design вместе с Angular.js</a>
+          </li>
+        
+          <li>
+            <a href="/2014/09/03/moment-dot-js-rabota-s-datami-v-javascript/">Moment.js: работа с датами в JavaScript</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 Alex Saskevich<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Go: Развертывание web-приложения в среде Heroku | Some Useful Notes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Развернуть Go приложение на Heroku - легко!">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go: Развертывание web-приложения в среде Heroku">
+<meta property="og:url" content="http://asaskevich.github.io/2014/08/01/go--web----heroku/index.html">
+<meta property="og:site_name" content="Some Useful Notes">
+<meta property="og:description" content="Развернуть Go приложение на Heroku - легко!">
+<meta property="og:updated_time" content="2015-04-21T09:53:12.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Go: Развертывание web-приложения в среде Heroku">
+<meta name="twitter:description" content="Развернуть Go приложение на Heroku - легко!">
+  
+    <link rel="alternate" href="/atom.xml" title="Some Useful Notes" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Some Useful Notes</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Short notes from Alex Saskevich</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://asaskevich.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-go--web----heroku" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/08/01/go--web----heroku/" class="article-date">
+  <time datetime="2014-07-31T21:00:00.000Z" itemprop="datePublished">2014-08-01</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Deployment/">Deployment</a>►<a class="article-category-link" href="/categories/Deployment/Heroku/">Heroku</a>►<a class="article-category-link" href="/categories/Deployment/Heroku/Go/">Go</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Go: Развертывание web-приложения в среде Heroku
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Для размещения своего web-приложения в облаке уже существует не мало различных сервисов и хостингов, однако лишь немногие поддерживают работу с Go. Среди них можно обратить внимание на следующие:</p>
+<ul>
+<li>Google App Engine</li>
+<li>Heroku</li>
+</ul>
+<p>Некоторые другие сервисы также предлагают поддержку Go, однако на платной основе, что не всегда выгодно для разработчика, например, если он проводит различные эксперименты, изучая особенности языка. Выбрав такие критерии выбора, как простоту развертывания, скорость и удобство, я остановился на Heroku.</p>
+<a id="more"></a>
+<p>Для одного аккаунта Heroku предлагает до 5 приложений на бесплатной основе. Каждому приложению система выделяет 750 бесплатных часов работы в месяц, также следует учитывать, что после часа «простоя» приложение уходит в режим «сна» (Но оно автоматически будет «разбужено» при поступлении запроса к нему).</p>
+<h3 id="u0420_u0435_u0433_u0438_u0441_u0442_u0440_u0430_u0446_u0438_u044F__u0432__u0441_u0438_u0441_u0442_u0435_u043C_u0435__u0438__u0430_u0432_u0442_u043E_u0440_u0438_u0437_u0430_u0446_u0438_u044F"><a href="#u0420_u0435_u0433_u0438_u0441_u0442_u0440_u0430_u0446_u0438_u044F__u0432__u0441_u0438_u0441_u0442_u0435_u043C_u0435__u0438__u0430_u0432_u0442_u043E_u0440_u0438_u0437_u0430_u0446_u0438_u044F" class="headerlink" title="Регистрация в системе и авторизация"></a>Регистрация в системе и авторизация</h3><p>Если у вас нету профиля, создайте его, перейдя вот по <a href="https://id.heroku.com/signup" target="_blank" rel="external">этой</a> ссылке. Далее нужно загрузить и установить <a href="https://toolbelt.heroku.com/" target="_blank" rel="external">Heroku Toolbelt</a>. Установив, убедитесь, что у вас в консоли работает команда <code>heroku</code>. Если все работает, открываем терминал и вводим следующее:</p>
+<figure class="highlight bash"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ heroku login</span><br><span class="line">Enter your Heroku credentials.</span><br><span class="line">Email: user@server.com</span><br><span class="line">Password:</span><br><span class="line">Could not find an existing public key.</span><br><span class="line">Would you like to generate one? [Yn]</span><br><span class="line">Generating new SSH public key.</span><br><span class="line">Uploading ssh public key /Users/user/.ssh/id_rsa.pub</span><br></pre></td></tr></table></figure>
+<h3 id="u0421_u043E_u0437_u0434_u0430_u043D_u0438_u0435__u043F_u0440_u0438_u043B_u043E_u0436_u0435_u043D_u0438_u044F"><a href="#u0421_u043E_u0437_u0434_u0430_u043D_u0438_u0435__u043F_u0440_u0438_u043B_u043E_u0436_u0435_u043D_u0438_u044F" class="headerlink" title="Создание приложения"></a>Создание приложения</h3><p>Цель поста — показать, как развернуть приложение в облаке, потому я обойдусь простейшим «Hello, World», используя фреймворк martini:</p>
+<figure class="highlight go"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">"github.com/go-martini/martini"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">func</span> main() &#123;</span><br><span class="line">    m := martini.Classic()</span><br><span class="line">    m.Get(<span class="string">"/"</span>, <span class="keyword">func</span>() <span class="typename">string</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"Hello World"</span></span><br><span class="line">    &#125;)</span><br><span class="line">    m.Run()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Исходный код я разместил в файле <code>$GOPATH/github.com/user/hello/server.go</code>. </p>
+<h3 id="u0421_u043E_u0437_u0434_u0430_u043D_u0438_u0435__u0444_u0430_u0439_u043B_u0430_Procfile"><a href="#u0421_u043E_u0437_u0434_u0430_u043D_u0438_u0435__u0444_u0430_u0439_u043B_u0430_Procfile" class="headerlink" title="Создание файла Procfile"></a>Создание файла Procfile</h3><p>Procfile нужен Heroku для того, чтобы знать, как запускать сервер. Разместим там одну маленькую строчку:</p>
+<figure class="highlight go"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">web: hello</span><br></pre></td></tr></table></figure>
+<p>Обратите внимание, что если ваш исходник расположен в папке, отличной от папки <code>hello</code>, то и содержимое будет несколько другим:</p>
+<figure class="highlight go"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">web: &lt;название папки, в которой расположен код приложения&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="u0421_u043E_u0437_u0434_u0430_u043D_u0438_u0435__u043B_u043E_u043A_u0430_u043B_u044C_u043D_u043E_u0433_u043E__u0440_u0435_u043F_u043E_u0437_u0438_u0442_u043E_u0440_u0438_u044F"><a href="#u0421_u043E_u0437_u0434_u0430_u043D_u0438_u0435__u043B_u043E_u043A_u0430_u043B_u044C_u043D_u043E_u0433_u043E__u0440_u0435_u043F_u043E_u0437_u0438_u0442_u043E_u0440_u0438_u044F" class="headerlink" title="Создание локального репозитория"></a>Создание локального репозитория</h3><p>В папке <code>$GOPATH/github.com/user/hello/</code> выполняем следующие команды:</p>
+<figure class="highlight bash"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git init</span><br><span class="line">$ git add -A .</span><br><span class="line">$ git commit -m <span class="string">"code"</span></span><br></pre></td></tr></table></figure>
+<p>В дальнейшем мы будем производить push из локального репозитория на репозиторий Heroku.</p>
+<h3 id="Godep__u2014__u0441_u043E_u0445_u0440_u0430_u043D_u0435_u043D_u0438_u0435__u0437_u0430_u0432_u0438_u0441_u0438_u043C_u043E_u0441_u0442_u0435_u0439"><a href="#Godep__u2014__u0441_u043E_u0445_u0440_u0430_u043D_u0435_u043D_u0438_u0435__u0437_u0430_u0432_u0438_u0441_u0438_u043C_u043E_u0441_u0442_u0435_u0439" class="headerlink" title="Godep — сохранение зависимостей"></a>Godep — сохранение зависимостей</h3><p>godep — специальный инструмент для управления зависимостями пакета. Он позволит сохранить информацию о пакетах, которые использует наш проект, и их исходный код.<br>Устанавливаем:</p>
+<figure class="highlight bash"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ go get github.com/kr/godep</span><br></pre></td></tr></table></figure>
+<p>Переходим в нашу папку <code>$GOPATH/github.com/user/hello/</code> и выполняем:</p>
+<figure class="highlight bash"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ godep save</span><br></pre></td></tr></table></figure>
+<p>В итоге будет создана папка <code>Godep</code>, в которой вы найдете файл <code>Godep.json</code> со списком зависимостей, а также папку <code>_workspace</code> с исходными кодами сторонних пакетов.<br>Делаем коммит:</p>
+<figure class="highlight bash"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git add -A .</span><br><span class="line">$ git commit -m <span class="string">"dependencies"</span></span><br></pre></td></tr></table></figure>
+<h3 id="u0421_u043E_u0437_u0434_u0430_u043D_u0438_u0435__u043F_u0440_u0438_u043B_u043E_u0436_u0435_u043D_u0438_u044F__u043D_u0430_Heroku__u0438__u0440_u0430_u0437_u0432_u0435_u0440_u0442_u044B_u0432_u0430_u043D_u0438_u0435"><a href="#u0421_u043E_u0437_u0434_u0430_u043D_u0438_u0435__u043F_u0440_u0438_u043B_u043E_u0436_u0435_u043D_u0438_u044F__u043D_u0430_Heroku__u0438__u0440_u0430_u0437_u0432_u0435_u0440_u0442_u044B_u0432_u0430_u043D_u0438_u0435" class="headerlink" title="Создание приложения на Heroku и развертывание"></a>Создание приложения на Heroku и развертывание</h3><p>Теперь начинается самое интересное. Если вы ушли из папки <code>$GOPATH/github.com/user/hello/</code>, то вернитесь. Теперь в терминале выполняем следующее:</p>
+<figure class="highlight bash"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ heroku create -b https://github.com/kr/heroku-buildpack-go.git</span><br><span class="line">Creating secure-beyond-<span class="number">6735</span>... <span class="keyword">done</span>, stack is cedar</span><br><span class="line">BUILDPACK_URL=https://github.com/kr/heroku-buildpack-go.git</span><br><span class="line">http://secure-beyond-<span class="number">6735</span>.herokuapp.com/ | git@heroku.com:secure-beyond-<span class="number">6735</span>.git</span><br><span class="line">Git remote heroku added</span><br></pre></td></tr></table></figure>
+<p>Команда создаст наше приложение и, используя <a href="https://github.com/kr/heroku-buildpack-go" target="_blank" rel="external">Go Heroku Buildpack</a>, сохранит информацию о том, как его нужно собирать и развертывать.<br>Делаем push:</p>
+<figure class="highlight bash"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">$ git push heroku master</span><br><span class="line">Initializing repository, done.</span><br><span class="line">Counting objects: <span class="number">11</span>, done.</span><br><span class="line">Delta compression using up to <span class="number">4</span> threads.</span><br><span class="line">Compressing objects: <span class="number">100</span>% (<span class="number">8</span>/<span class="number">8</span>), done.</span><br><span class="line">Writing objects: <span class="number">100</span>% (<span class="number">11</span>/<span class="number">11</span>), <span class="number">1.29</span> KiB | <span class="number">0</span> bytes/s, done.</span><br><span class="line">Total <span class="number">11</span> (delta <span class="number">0</span>), reused <span class="number">0</span> (delta <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">-----&gt; Fetching custom git buildpack... <span class="keyword">done</span></span><br><span class="line">-----&gt; Go app detected</span><br><span class="line">-----&gt; Installing go1.<span class="number">3</span>... <span class="keyword">done</span></span><br><span class="line">-----&gt; Running: godep go install -tags heroku ./...</span><br><span class="line">-----&gt; Discovering process types</span><br><span class="line">       Procfile declares types -&gt; web</span><br><span class="line"> </span><br><span class="line">-----&gt; Compressing... <span class="keyword">done</span>, <span class="number">1.7</span>MB</span><br><span class="line">-----&gt; Launching... <span class="keyword">done</span>, v4</span><br><span class="line">       http://secure-beyond-<span class="number">6735</span>.herokuapp.com deployed to Heroku</span><br><span class="line"></span><br><span class="line">To git@heroku.com:secure-beyond-<span class="number">6735</span>.git</span><br><span class="line"> * [new branch]      master -&gt; master</span><br></pre></td></tr></table></figure>
+<p>Почти все, мы выполняем еще одну команду, Heroku запустит приложение, затем откроет браузер и перейдет по адресу работающего приложения:</p>
+<figure class="highlight bash"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ heroku open</span><br><span class="line">Opening secure-beyond-<span class="number">6735</span>... <span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+<p>Все, приложение запущено на Heroku. В будущем вам нужно будет только поправить зависимости (если начнете использовать новые библиотеки), сделать коммит и push. На мой взгляд весьма быстро, просто и удобно. Вот тут описан похожий способ, но на мой взгляд он немного сложнее. </p>
+<h3 id="B_u0441_u0435__u0441_u0441_u044B_u043B_u043A_u0438_3A"><a href="#B_u0441_u0435__u0441_u0441_u044B_u043B_u043A_u0438_3A" class="headerlink" title="Bсе ссылки:"></a>Bсе ссылки:</h3><ul>
+<li><a href="https://id.heroku.com/signup" target="_blank" rel="external">Heroku Signup</a></li>
+<li><a href="https://toolbelt.heroku.com/" target="_blank" rel="external">Heroku Toolbelt</a></li>
+<li><a href="http://github.com/kr/godep" target="_blank" rel="external">Godep</a></li>
+<li><a href="https://github.com/kr/heroku-buildpack-go" target="_blank" rel="external">Go Heroku Buildpack</a></li>
+</ul>
+<h3 id="u041C_u0430_u043B_u0435_u043D_u044C_u043A_u0430_u044F__u0437_u0430_u043C_u0435_u0442_u043A_u0430"><a href="#u041C_u0430_u043B_u0435_u043D_u044C_u043A_u0430_u044F__u0437_u0430_u043C_u0435_u0442_u043A_u0430" class="headerlink" title="Маленькая заметка"></a>Маленькая заметка</h3><p>В оригинале запись была опубликована <a href="http://habrahabr.ru/post/229799/" target="_blank" rel="external">тут</a>.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://asaskevich.github.io/2014/08/01/go--web----heroku/" data-id="cijaetscv0033h4uotbvtfcag" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/08/03/go---crypto/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Go: обзор пакета Crypto
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/07/30/java--api----jsoup/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Java &amp; API: Легкий старт с Jsoup</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/API/">API</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/API/Go/">Go</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/API/Go/Cryptography/">Cryptography</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/API/Go/Walk/">Walk</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/API/Java/">Java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/API/Java/Jsoup/">Jsoup</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/API/JavaScript/">JavaScript</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/API/JavaScript/StackExchange/">StackExchange</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/API/Python/">Python</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/API/Python/Flask/">Flask</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Backbone/">Backbone</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Backbone/JavaScript/">JavaScript</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Backbone/JavaScript/Routers/">Routers</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/CSS/">CSS</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CSS/HTML/">HTML</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CSS/HTML/Design/">Design</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Clojure/">Clojure</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Clojure/Newbie/">Newbie</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Clojure/Newbie/Functional/">Functional</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Concurrency/">Concurrency</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Concurrency/Actors/">Actors</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Concurrency/Actors/Scala/">Scala</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Deployment/">Deployment</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Deployment/Heroku/">Heroku</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Deployment/Heroku/Go/">Go</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Go/">Go</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Go/API/">API</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Go/API/Validation/">Validation</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Grunt/">Grunt</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Grunt/JavaScript/">JavaScript</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/C/">C</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/C/C/">C++</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/C/C/JNI/">JNI</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/C/GCJ/">GCJ</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/Useful/">Useful</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/Useful/Moment-js/">Moment.js</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Material-Design/">Material Design</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Material-Design/Angular-js/">Angular.js</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Material-Design/Angular-js/JavaScript/">JavaScript</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Minecraft/">Minecraft</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Minecraft/Forge/">Forge</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Minecraft/Forge/Modding/">Modding</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Minecraft/Forge/Modding/API/">API</a></li></ul></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/">Newbie</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/Clojure/">Clojure</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/Clojure/Functional/">Functional</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/Clojure/Functional/Data-Structures/">Data Structures</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/JavaScript/">JavaScript</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/JavaScript/Backbone-js/">Backbone.js</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/Jekyll/">Jekyll</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/Node-js/">Node.js</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/Node-js/Sails-js/">Sails.js</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/Node-js/Sails-js/Backbone-js/">Backbone.js</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Newbie/Octopress/">Octopress</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Scala/">Scala</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Scala/Traits/">Traits</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/localStorage/">localStorage</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/localStorage/localForage/">localForage</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/localStorage/localForage/indexedDB/">indexedDB</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/localStorage/localForage/indexedDB/webSql/">webSql</a></li></ul></li></ul></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2015/04/21/localforage-khranim-dannyie-offline-biez-gholovnoi-boli-udobnaia-abstraktsiia-nad-indexeddb/">localForage – храним данные offline без головной боли. Удобная абстракция над IndexedDB</a>
+          </li>
+        
+          <li>
+            <a href="/2015/02/09/validatsiia-dannykh-v-go-pri-pomoshchi-govalidator/">Валидация данных в Go при помощи govalidator</a>
+          </li>
+        
+          <li>
+            <a href="/2015/02/08/minecraft-forge-kastomnyie-tieksty-v-gui-kontieinierov/">Minecraft Forge: кастомные тексты в GUI контейнеров</a>
+          </li>
+        
+          <li>
+            <a href="/2015/02/07/material-design-vmiestie-s-angular-dot-js/">Material Design вместе с Angular.js</a>
+          </li>
+        
+          <li>
+            <a href="/2014/09/03/moment-dot-js-rabota-s-datami-v-javascript/">Moment.js: работа с датами в JavaScript</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 Alex Saskevich<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>
