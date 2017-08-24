@@ -6,16 +6,19 @@
   <title>Minecraft Forge: кастомные тексты в GUI контейнеров | Some Useful Notes</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="При разработке очередной версии SmartCursor”а мне потребовалось добавить новую возможность - отображение мода, из которого загружен очередной блок или предмет, в GUI контейнеров, будь то инвентарь игр">
+<meta name="keywords" content="API,Minecraft,Forge,Modding">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Minecraft Forge: кастомные тексты в GUI контейнеров">
 <meta property="og:url" content="http://asaskevich.github.io/2015/02/08/minecraft-forge-kastomnyie-tieksty-v-gui-kontieinierov/index.html">
 <meta property="og:site_name" content="Some Useful Notes">
 <meta property="og:description" content="При разработке очередной версии SmartCursor”а мне потребовалось добавить новую возможность - отображение мода, из которого загружен очередной блок или предмет, в GUI контейнеров, будь то инвентарь игр">
+<meta property="og:locale" content="ru, en">
 <meta property="og:image" content="http://asaskevich.github.io/images/screen-1.jpg">
-<meta property="og:updated_time" content="2016-01-16T16:04:53.735Z">
+<meta property="og:updated_time" content="2016-01-16T16:04:54.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Minecraft Forge: кастомные тексты в GUI контейнеров">
 <meta name="twitter:description" content="При разработке очередной версии SmartCursor”а мне потребовалось добавить новую возможность - отображение мода, из которого загружен очередной блок или предмет, в GUI контейнеров, будь то инвентарь игр">
+<meta name="twitter:image" content="http://asaskevich.github.io/images/screen-1.jpg">
 <meta name="twitter:creator" content="@asaskevich">
   
     <link rel="alternate" href="/atom.xml" title="Some Useful Notes" type="application/atom+xml">
@@ -24,7 +27,7 @@
     <link rel="icon" href="/favicon.png">
   
   <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
   
 <!-- Google Analytics -->
 <script type="text/javascript">
@@ -38,6 +41,9 @@ ga('send', 'pageview');
 
 </script>
 <!-- End Google Analytics -->
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript" > (function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter45728682 = new Ya.Metrika({ id:45728682, clickmap:true, trackLinks:true, accurateTrackBounce:true }); } catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = "https://mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks"); </script> <noscript><div><img src="https://mc.yandex.ru/watch/45728682" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
 
 
 </head>
@@ -74,7 +80,7 @@ ga('send', 'pageview');
         <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
       <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://asaskevich.github.io"></form>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://asaskevich.github.io"></form>
       </div>
     </div>
   </div>
@@ -110,18 +116,18 @@ ga('send', 'pageview');
 <a id="more"></a>
 <p>Задача, мягко говоря, не совсем обычная, и возникает она у модмейкеров не слишком часто, однако после изучения API я обнаружил то, что мне нужно.</p>
 <h4 id="u0421_u043E_u0431_u044B_u0442_u0438_u0435_ItemTooltipEvent"><a href="#u0421_u043E_u0431_u044B_u0442_u0438_u0435_ItemTooltipEvent" class="headerlink" title="Событие ItemTooltipEvent"></a>Событие ItemTooltipEvent</h4><p>Данное событие вызывается системой, когда игрок наводит курсор на слот, заполенный некоторым предметом. Событие содержит три поля: <code>ItemStack</code>, который вызвал это событие, список текстов для подсказки, а также флаг <code>showAdvancedItemTooltips</code>, указывающий на то, что подсказка вызывается в режиме отображения дополнительной информации, которая, кстати говоря, активируется клавишами <code>F3 + H</code>. Класс события расположен в пакете <code>net.minecraftforge.event.entity.player</code>.</p>
-<h4 id="u041F_u043E_u0434_u043F_u0438_u0441_u043A_u0430__u043D_u0430__u0441_u043E_u0431_u044B_u0442_u0438_u0435"><a href="#u041F_u043E_u0434_u043F_u0438_u0441_u043A_u0430__u043D_u0430__u0441_u043E_u0431_u044B_u0442_u0438_u0435" class="headerlink" title="Подписка на событие"></a>Подписка на событие</h4><p>Подписка ничем не отличается от подписки на другие события. Создаем класс, в котором описываем некоторый метод, принимающий в качестве аргумента событие, а затем вешаем на метод аннотацию <code>SubscribeEvent</code>:<br><figure class="highlight java"><figcaption><span>Sample Code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@SubscribeEvent</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addTooltipText</span><span class="params">(ItemTooltipEvent event)</span> </span>&#123; &#125;</span><br></pre></td></tr></table></figure></p>
-<p>После чего подключаем экземпляр к шине событий Forge:<br><figure class="highlight java"><figcaption><span>Sample Code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MinecraftForge.EVENT_BUS.register(<span class="keyword">new</span> SomeClass());</span><br></pre></td></tr></table></figure></p>
-<h4 id="u0414_u043E_u0431_u0430_u0432_u043B_u0435_u043D_u0438_u0435__u0442_u0435_u043A_u0441_u0442_u043E_u0432"><a href="#u0414_u043E_u0431_u0430_u0432_u043B_u0435_u043D_u0438_u0435__u0442_u0435_u043A_u0441_u0442_u043E_u0432" class="headerlink" title="Добавление текстов"></a>Добавление текстов</h4><p>Собственно, ничего сложного, достаем из события список текстов и добавляем в него свои тексты:<br><figure class="highlight java"><figcaption><span>Sample Code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ItemStack stack = event.itemStack;</span><br><span class="line">event.toolTip.add(<span class="string">"Unlocalized name:"</span> + stack.getUnlocalizedName());</span><br></pre></td></tr></table></figure></p>
+<h4 id="u041F_u043E_u0434_u043F_u0438_u0441_u043A_u0430__u043D_u0430__u0441_u043E_u0431_u044B_u0442_u0438_u0435"><a href="#u041F_u043E_u0434_u043F_u0438_u0441_u043A_u0430__u043D_u0430__u0441_u043E_u0431_u044B_u0442_u0438_u0435" class="headerlink" title="Подписка на событие"></a>Подписка на событие</h4><p>Подписка ничем не отличается от подписки на другие события. Создаем класс, в котором описываем некоторый метод, принимающий в качестве аргумента событие, а затем вешаем на метод аннотацию <code>SubscribeEvent</code>:<br><figure class="highlight java"><figcaption><span>Sample Code</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@SubscribeEvent</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addTooltipText</span><span class="params">(ItemTooltipEvent event)</span> </span>&#123; &#125;</div></pre></td></tr></table></figure></p>
+<p>После чего подключаем экземпляр к шине событий Forge:<br><figure class="highlight java"><figcaption><span>Sample Code</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">MinecraftForge.EVENT_BUS.register(<span class="keyword">new</span> SomeClass());</div></pre></td></tr></table></figure></p>
+<h4 id="u0414_u043E_u0431_u0430_u0432_u043B_u0435_u043D_u0438_u0435__u0442_u0435_u043A_u0441_u0442_u043E_u0432"><a href="#u0414_u043E_u0431_u0430_u0432_u043B_u0435_u043D_u0438_u0435__u0442_u0435_u043A_u0441_u0442_u043E_u0432" class="headerlink" title="Добавление текстов"></a>Добавление текстов</h4><p>Собственно, ничего сложного, достаем из события список текстов и добавляем в него свои тексты:<br><figure class="highlight java"><figcaption><span>Sample Code</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ItemStack stack = event.itemStack;</div><div class="line">event.toolTip.add(<span class="string">"Unlocalized name:"</span> + stack.getUnlocalizedName());</div></pre></td></tr></table></figure></p>
 <p>На примере выше мы добавим к подсказке нелокализованную версию имени блока.</p>
-<h4 id="u0420_u0430_u0441_u043A_u0440_u0430_u0441_u043A_u0430__u0442_u0435_u043A_u0441_u0442_u043E_u0432"><a href="#u0420_u0430_u0441_u043A_u0440_u0430_u0441_u043A_u0430__u0442_u0435_u043A_u0441_u0442_u043E_u0432" class="headerlink" title="Раскраска текстов"></a>Раскраска текстов</h4><p>Опционально мы можем сделать наши тексты более яркими. Воспользовавшись перечислением <code>EnumChatFormatting</code> из пакета <code>net.minecraft.util</code> мы можем сделать текст таким, как хотим этого мы. В качестве примера сделаем слова <code>Unlocalized name:</code> из примера выше голубого цвета, а шрифт изменим на курсив:<br><figure class="highlight java"><figcaption><span>Sample Code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">event.toolTip.add(EnumChatFormatting.AQUA + <span class="string">""</span> + EnumChatFormatting.ITALIC + <span class="string">"Unlocalized name:"</span> + EnumChatFormatting.RESET + stack.getUnlocalizedName());</span><br></pre></td></tr></table></figure></p>
+<h4 id="u0420_u0430_u0441_u043A_u0440_u0430_u0441_u043A_u0430__u0442_u0435_u043A_u0441_u0442_u043E_u0432"><a href="#u0420_u0430_u0441_u043A_u0440_u0430_u0441_u043A_u0430__u0442_u0435_u043A_u0441_u0442_u043E_u0432" class="headerlink" title="Раскраска текстов"></a>Раскраска текстов</h4><p>Опционально мы можем сделать наши тексты более яркими. Воспользовавшись перечислением <code>EnumChatFormatting</code> из пакета <code>net.minecraft.util</code> мы можем сделать текст таким, как хотим этого мы. В качестве примера сделаем слова <code>Unlocalized name:</code> из примера выше голубого цвета, а шрифт изменим на курсив:<br><figure class="highlight java"><figcaption><span>Sample Code</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">event.toolTip.add(EnumChatFormatting.AQUA + <span class="string">""</span> + EnumChatFormatting.ITALIC + <span class="string">"Unlocalized name:"</span> + EnumChatFormatting.RESET + stack.getUnlocalizedName());</div></pre></td></tr></table></figure></p>
 <h4 id="u0420_u0435_u0437_u0443_u043B_u044C_u0442_u0430_u0442"><a href="#u0420_u0435_u0437_u0443_u043B_u044C_u0442_u0430_u0442" class="headerlink" title="Результат"></a>Результат</h4><p>Вот собственно и весь результат:</p>
 <p><img src="/images/screen-1.jpg" alt=""></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://asaskevich.github.io/2015/02/08/minecraft-forge-kastomnyie-tieksty-v-gui-kontieinierov/" data-id="cijhcm67g0015uguocck8q48c" class="article-share-link">Share</a>
+      <a data-url="http://asaskevich.github.io/2015/02/08/minecraft-forge-kastomnyie-tieksty-v-gui-kontieinierov/" data-id="cimm2k9vf0015z4uojwm0fy05" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/API/">API</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Forge/">Forge</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Minecraft/">Minecraft</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Modding/">Modding</a></li></ul>
@@ -233,7 +239,7 @@ ga('send', 'pageview');
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2016 Alex Saskevich<br>
+      &copy; 2017 Alex Saskevich<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
@@ -251,11 +257,11 @@ ga('send', 'pageview');
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
-  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
 
 
-<script src="/js/script.js" type="text/javascript"></script>
+<script src="/js/script.js"></script>
 
   </div>
 </body>

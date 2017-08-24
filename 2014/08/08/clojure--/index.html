@@ -6,12 +6,14 @@
   <title>Clojure: первое знакомство | Some Useful Notes</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="Рано или поздно приходится начать изучать функциональные языки, потому ...">
+<meta name="keywords" content="Newbie,Clojure,Functional">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Clojure: первое знакомство">
 <meta property="og:url" content="http://asaskevich.github.io/2014/08/08/clojure--/index.html">
 <meta property="og:site_name" content="Some Useful Notes">
 <meta property="og:description" content="Рано или поздно приходится начать изучать функциональные языки, потому ...">
-<meta property="og:updated_time" content="2016-01-16T16:05:50.747Z">
+<meta property="og:locale" content="ru, en">
+<meta property="og:updated_time" content="2016-01-16T16:05:52.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Clojure: первое знакомство">
 <meta name="twitter:description" content="Рано или поздно приходится начать изучать функциональные языки, потому ...">
@@ -23,7 +25,7 @@
     <link rel="icon" href="/favicon.png">
   
   <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
   
 <!-- Google Analytics -->
 <script type="text/javascript">
@@ -37,6 +39,9 @@ ga('send', 'pageview');
 
 </script>
 <!-- End Google Analytics -->
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript" > (function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter45728682 = new Ya.Metrika({ id:45728682, clickmap:true, trackLinks:true, accurateTrackBounce:true }); } catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = "https://mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks"); </script> <noscript><div><img src="https://mc.yandex.ru/watch/45728682" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
 
 
 </head>
@@ -73,7 +78,7 @@ ga('send', 'pageview');
         <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
       <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://asaskevich.github.io"></form>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://asaskevich.github.io"></form>
       </div>
     </div>
   </div>
@@ -108,20 +113,20 @@ ga('send', 'pageview');
         <p>Уж не знаю, по какой причине мне вдруг захотелось познакомиться с Clojure. До этого я практически не работал с функциональными языками (несколько маленких программ на Scala не учитываются). Однако рано или поздно приходится переступить через это. Почему я не выбрал Haskell или Erlang? Потому что Clojure крепко дружит с JVM, а это значит, что код на Java доступен в Clojure и наоборот. С другой стороны, почему не Scala? Scala не является абсолютно-функциональным языком, а это значит, что имея в руках функциональный и объектно-ориентированый язык программирования, рано или поздно в силу сложившихся привычек перейдешь на чистое ООП, используя его даже там, где язык предлагает более изящное решение на “функциональщине”.</p>
 <a id="more"></a>
 <h3 id="Hello_World"><a href="#Hello_World" class="headerlink" title="Hello World"></a>Hello World</h3><p>Начну с самого простого и традиционного - “Hello, World!”. Так как Clojure имеет некоторый Lisp-синтаксис, нам придется свыкнуться с мыслью о том, что нас ожидает великое множество скобочек:</p>
-<figure class="highlight"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">user=&gt; (println "Hello, World")</span><br><span class="line">Hello, World</span><br><span class="line">nil</span><br></pre></td></tr></table></figure>
+<figure class="highlight clojure"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">user=&gt; (println "Hello, World")</div><div class="line">Hello, World</div><div class="line"><span class="literal">nil</span></div></pre></td></tr></table></figure>
 <p>Что это за <code>nil</code>? Как я понял, листая примеры, это значит, что функция <code>println</code> ничего не вернула, а ничего - это <code>nil</code> или <code>null</code> в Java.<br>В целом, синтаксис вызова функции такой: <code>(func arg1 arg2 .. argN)</code>. Так, выше <code>func</code> это <code>println</code>, а единственный аргумент представлен в виде строки <code>&quot;Hello, World&quot;</code></p>
 <h3 id="u0410_u0440_u0438_u0444_u043C_u0435_u0442_u0438_u043A_u0430"><a href="#u0410_u0440_u0438_u0444_u043C_u0435_u0442_u0438_u043A_u0430" class="headerlink" title="Арифметика"></a>Арифметика</h3><p>После этого я решил глянуть, как обстоят дела с примитивной арифметикой - сложение, вычитание, деление, умножение. И тут меня ждал сюрприз:</p>
-<figure class="highlight"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">user=&gt; (+ 5 6)</span><br><span class="line">11</span><br><span class="line">user=&gt; (* 5 6)</span><br><span class="line">30</span><br><span class="line">user=&gt; (- 5 6)</span><br><span class="line">-1</span><br><span class="line">user=&gt; (/ 5 6)</span><br><span class="line">5/6</span><br></pre></td></tr></table></figure>
+<figure class="highlight"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">user=&gt; (+ 5 6)</div><div class="line"><span class="number">11</span></div><div class="line">user=&gt; (* 5 6)</div><div class="line"><span class="number">30</span></div><div class="line">user=&gt; (- 5 6)</div><div class="line"><span class="number">-1</span></div><div class="line">user=&gt; (/ 5 6)</div><div class="line">5/6</div></pre></td></tr></table></figure>
 <p>Как видим, деление вернуло результат в виде рациональной дроби. А что, если попробовать так?</p>
-<figure class="highlight"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">user=&gt; (/ 6 5)</span><br><span class="line">6/5</span><br><span class="line">user=&gt; (/ 6 3)</span><br><span class="line">2</span><br><span class="line">user=&gt; (/ 6 2)</span><br><span class="line">3</span><br></pre></td></tr></table></figure>
+<figure class="highlight clojure"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">user=&gt; (/ 6 5)</div><div class="line">6/5</div><div class="line">user=&gt; (/ 6 3)</div><div class="line"><span class="number">2</span></div><div class="line">user=&gt; (/ 6 2)</div><div class="line"><span class="number">3</span></div></pre></td></tr></table></figure>
 <p>Если возможно провести целочисленное деление, язык делает это совершенно самостоятельно.<br>А как получить остаток от деления? В С или Java это <code>%</code>, но тут это уже не работает. Мысленно перебирая варианты, пробую такие названия функций: <code>mod</code> <code>rem</code>. И каково мое удивление, эти оба варианта работают и выполняют одно и то же действие. Сказать, зачем это сделано, я не могу, потому просто будем использовать то, что первое придет в голову:</p>
-<figure class="highlight"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">user=&gt; (rem 6 2)</span><br><span class="line">0</span><br><span class="line">user=&gt; (rem 6 4)</span><br><span class="line">2</span><br><span class="line">user=&gt; (mod 6 1)</span><br><span class="line">0</span><br><span class="line">user=&gt; (mod 6 10)</span><br><span class="line">6</span><br><span class="line">user=&gt; (rem 6 10)</span><br><span class="line">6</span><br></pre></td></tr></table></figure>
+<figure class="highlight clojure"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">user=&gt; (rem 6 2)</div><div class="line"><span class="number">0</span></div><div class="line">user=&gt; (rem 6 4)</div><div class="line"><span class="number">2</span></div><div class="line">user=&gt; (mod 6 1)</div><div class="line"><span class="number">0</span></div><div class="line">user=&gt; (mod 6 10)</div><div class="line"><span class="number">6</span></div><div class="line">user=&gt; (rem 6 10)</div><div class="line"><span class="number">6</span></div></pre></td></tr></table></figure>
 <h3 id="u0421_u0442_u0440_u043E_u043A_u0438"><a href="#u0421_u0442_u0440_u043E_u043A_u0438" class="headerlink" title="Строки"></a>Строки</h3><p>Строки в языке записываются также, как и в большинстве других языков - между двойных кавычек:</p>
-<figure class="highlight"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">user=&gt; (str "Hello, " "World")</span><br><span class="line">"Hello, World"</span><br><span class="line">user=&gt; "Hello"</span><br><span class="line">"Hello"</span><br><span class="line">user=&gt; (str "Hello" 9)</span><br><span class="line">"Hello9"</span><br><span class="line">user=&gt; (str "Hello" [5 6 7])</span><br><span class="line">"Hello[5 6 7]"</span><br></pre></td></tr></table></figure>
+<figure class="highlight clojure"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">user=&gt; (str "Hello, " "World")</div><div class="line"><span class="string">"Hello, World"</span></div><div class="line">user=&gt; "Hello"</div><div class="line"><span class="string">"Hello"</span></div><div class="line">user=&gt; (str "Hello" 9)</div><div class="line"><span class="string">"Hello9"</span></div><div class="line">user=&gt; (str "Hello" [5 6 7])</div><div class="line"><span class="string">"Hello[5 6 7]"</span></div></pre></td></tr></table></figure>
 <p>С поиском в строке вышло немного труднее - не имея представления о том, как нужно делать вызов функций из Java, я пытался получить <code>indexOf</code> из <code>java.lang.String</code>. Но, полазив по официальному сайту, нашел:</p>
-<figure class="highlight"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">user=&gt; (.indexOf "Hello" "l")</span><br><span class="line">2</span><br><span class="line">user=&gt; (.lastIndexOf "Hello" "l")</span><br><span class="line">3</span><br><span class="line">user=&gt; (.substring "Hello" 1 3)</span><br><span class="line">"el"</span><br></pre></td></tr></table></figure>
+<figure class="highlight clojure"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">user=&gt; (.indexOf "Hello" "l")</div><div class="line"><span class="number">2</span></div><div class="line">user=&gt; (.lastIndexOf "Hello" "l")</div><div class="line"><span class="number">3</span></div><div class="line">user=&gt; (.substring "Hello" 1 3)</div><div class="line"><span class="string">"el"</span></div></pre></td></tr></table></figure>
 <h3 id="u0414_u0440_u0443_u0433_u0438_u0435__u0442_u0438_u043F_u044B__u0434_u0430_u043D_u043D_u044B_u0445"><a href="#u0414_u0440_u0443_u0433_u0438_u0435__u0442_u0438_u043F_u044B__u0434_u0430_u043D_u043D_u044B_u0445" class="headerlink" title="Другие типы данных"></a>Другие типы данных</h3><p>Давайте еще глянем на такие вещи, как списки, множества, вектора и карты:</p>
-<figure class="highlight"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">user=&gt; [1 2 3 4 5]</span><br><span class="line">[1 2 3 4 5]</span><br><span class="line">user=&gt; &#123;:1 2 :3 4&#125;</span><br><span class="line">&#123;:1 2, :3 4&#125;</span><br><span class="line">user=&gt; (set '(1 2 3 3 4 4 4 5 5 5 5 5))</span><br><span class="line">#&#123;1 4 3 2 5&#125;</span><br><span class="line">user=&gt; '(\a \b \c \d)</span><br><span class="line">(\a \b \c \d)</span><br></pre></td></tr></table></figure>
+<figure class="highlight clojure"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">user=&gt; [1 2 3 4 5]</div><div class="line">[<span class="number">1</span> <span class="number">2</span> <span class="number">3</span> <span class="number">4</span> <span class="number">5</span>]</div><div class="line">user=&gt; &#123;:1 2 :3 4&#125;</div><div class="line">&#123;:<span class="number">1</span> <span class="number">2</span>, :<span class="number">3</span> <span class="number">4</span>&#125;</div><div class="line">user=&gt; (set '(1 2 3 3 4 4 4 5 5 5 5 5))</div><div class="line">#&#123;1 4 3 2 5&#125;</div><div class="line">user=&gt; '(\a \b \c \d)</div><div class="line">(\a \b \c \d)</div></pre></td></tr></table></figure>
 <p>Язык предлагает поддержку различных типов этих структур - сортированные, хеш-, неупорядоченные.</p>
 <h3 id="u0417_u0430_u043A_u043B_u044E_u0447_u0435_u043D_u0438_u0435"><a href="#u0417_u0430_u043A_u043B_u044E_u0447_u0435_u043D_u0438_u0435" class="headerlink" title="Заключение"></a>Заключение</h3><p>Для первого достаточно, позже я рассмотрю управляющие операторы, функции, переменные. Конечно, можно писать и писать, однако мне кажется, что уже размер статьи стал несколько большим, потому продолжу знакомство в следующей статье.</p>
 <h3 id="u0421_u0441_u044B_u043B_u043A_u0438"><a href="#u0421_u0441_u044B_u043B_u043A_u0438" class="headerlink" title="Ссылки"></a>Ссылки</h3><ul>
@@ -135,7 +140,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://asaskevich.github.io/2014/08/08/clojure--/" data-id="cijhcm6a0003tuguobs5bp5ww" class="article-share-link">Share</a>
+      <a data-url="http://asaskevich.github.io/2014/08/08/clojure--/" data-id="cimm2k9wq003tz4uokz8psx07" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Clojure/">Clojure</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Functional/">Functional</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Newbie/">Newbie</a></li></ul>
@@ -247,7 +252,7 @@ ga('send', 'pageview');
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2016 Alex Saskevich<br>
+      &copy; 2017 Alex Saskevich<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
@@ -265,11 +270,11 @@ ga('send', 'pageview');
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
-  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
 
 
-<script src="/js/script.js" type="text/javascript"></script>
+<script src="/js/script.js"></script>
 
   </div>
 </body>

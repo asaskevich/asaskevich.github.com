@@ -11,6 +11,7 @@
 <meta property="og:url" content="http://asaskevich.github.io/page/2/index.html">
 <meta property="og:site_name" content="Some Useful Notes">
 <meta property="og:description" content="Short notes from Alex Saskevich">
+<meta property="og:locale" content="ru, en">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Some Useful Notes">
 <meta name="twitter:description" content="Short notes from Alex Saskevich">
@@ -22,7 +23,7 @@
     <link rel="icon" href="/favicon.png">
   
   <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
   
 <!-- Google Analytics -->
 <script type="text/javascript">
@@ -36,6 +37,9 @@ ga('send', 'pageview');
 
 </script>
 <!-- End Google Analytics -->
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript" > (function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter45728682 = new Ya.Metrika({ id:45728682, clickmap:true, trackLinks:true, accurateTrackBounce:true }); } catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = "https://mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks"); </script> <noscript><div><img src="https://mc.yandex.ru/watch/45728682" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
 
 
 </head>
@@ -72,7 +76,7 @@ ga('send', 'pageview');
         <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
       <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://asaskevich.github.io"></form>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://asaskevich.github.io"></form>
       </div>
     </div>
   </div>
@@ -115,7 +119,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://asaskevich.github.io/2014/08/04/css3---/" data-id="cijhcm6a50047uguoji2ib1if" class="article-share-link">Share</a>
+      <a data-url="http://asaskevich.github.io/2014/08/04/css3---/" data-id="cimm2k9x60047z4uozuuypbyn" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS/">CSS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Design/">Design</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTML/">HTML</a></li></ul>
@@ -178,7 +182,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://asaskevich.github.io/2014/08/03/go---crypto/" data-id="cijhcm6a5004guguo2jqj17mi" class="article-share-link">Share</a>
+      <a data-url="http://asaskevich.github.io/2014/08/03/go---crypto/" data-id="cimm2k9x6004gz4uo43qwg3ff" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/API/">API</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Cryptography/">Cryptography</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li></ul>
@@ -230,7 +234,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://asaskevich.github.io/2014/08/01/go--web----heroku/" data-id="cijhcm6ak004muguo5weev2py" class="article-share-link">Share</a>
+      <a data-url="http://asaskevich.github.io/2014/08/01/go--web----heroku/" data-id="cimm2k9x6004mz4uoe0hi81ol" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Deployment/">Deployment</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Heroku/">Heroku</a></li></ul>
@@ -268,7 +272,7 @@ ga('send', 'pageview');
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Иногда необходимо обработать данные, представленные в виде HTML. Конечно, проще всего работать с такими данными в JavaScript, однако в других языках также существуют отличные решения, решающие данную проблему. Так, например, в Java это <a href="http://jsoup.org/">Jsoup</a>. Рассмотрим самые базовые операции, которые мы можем выполнить при помощи библиотеки.</p>
+        <p>Иногда необходимо обработать данные, представленные в виде HTML. Конечно, проще всего работать с такими данными в JavaScript, однако в других языках также существуют отличные решения, решающие данную проблему. Так, например, в Java это <a href="http://jsoup.org/" target="_blank" rel="external">Jsoup</a>. Рассмотрим самые базовые операции, которые мы можем выполнить при помощи библиотеки.</p>
         
           <p class="article-more-link">
             <a href="/2014/07/30/java--api----jsoup/#more">Read More</a>
@@ -277,7 +281,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://asaskevich.github.io/2014/07/30/java--api----jsoup/" data-id="cijhcm6ak004tuguo9cxojdua" class="article-share-link">Share</a>
+      <a data-url="http://asaskevich.github.io/2014/07/30/java--api----jsoup/" data-id="cimm2k9x6004tz4uoczlb726w" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/API/">API</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Jsoup/">Jsoup</a></li></ul>
@@ -315,7 +319,7 @@ ga('send', 'pageview');
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Несмотря на то, что язык Go существует уже не один год, информация о том, как создавать приложения с графическим интерфейсом на этом языке, практически отсутствует. Возможно это вызвано тем, что среди официальных библиотек до сих пор нет библиотеки для работы с GUI. Однако это не значит, что мы не можем создать приложение с пользовательским интерфейсом: существуют библиотеки, предоставляющие такую возможность. Приведу их <a href="https://code.google.com/p/go-wiki/wiki/Projects#GUIs_and_Widget_Toolkits">список</a>. Но есть еще несколько библиотек, не указанных в этом списке. Среди них — <a href="https://github.com/lxn/walk">Walk</a>, название которого расшифровывается как «Windows Application Library Kit». С его помощью я попробую создать небольшое приложение с пользовательским интерфейсом.</p>
+        <p>Несмотря на то, что язык Go существует уже не один год, информация о том, как создавать приложения с графическим интерфейсом на этом языке, практически отсутствует. Возможно это вызвано тем, что среди официальных библиотек до сих пор нет библиотеки для работы с GUI. Однако это не значит, что мы не можем создать приложение с пользовательским интерфейсом: существуют библиотеки, предоставляющие такую возможность. Приведу их <a href="https://code.google.com/p/go-wiki/wiki/Projects#GUIs_and_Widget_Toolkits" target="_blank" rel="external">список</a>. Но есть еще несколько библиотек, не указанных в этом списке. Среди них — <a href="https://github.com/lxn/walk" target="_blank" rel="external">Walk</a>, название которого расшифровывается как «Windows Application Library Kit». С его помощью я попробую создать небольшое приложение с пользовательским интерфейсом.</p>
         
           <p class="article-more-link">
             <a href="/2014/07/25/go-------go/#more">Read More</a>
@@ -324,7 +328,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://asaskevich.github.io/2014/07/25/go-------go/" data-id="cijhcm6b2004zuguoqm8fux0t" class="article-share-link">Share</a>
+      <a data-url="http://asaskevich.github.io/2014/07/25/go-------go/" data-id="cimm2k9x6004zz4uodb2v6toe" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/API/">API</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Walk/">Walk</a></li></ul>
@@ -371,7 +375,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://asaskevich.github.io/2014/07/23/scala---/" data-id="cijhcm6be0055uguoyu0eqj64" class="article-share-link">Share</a>
+      <a data-url="http://asaskevich.github.io/2014/07/23/scala---/" data-id="cimm2k9xl0055z4uo69z3vyk7" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Scala/">Scala</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Traits/">Traits</a></li></ul>
@@ -418,7 +422,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://asaskevich.github.io/2014/07/15/python-flask--github/" data-id="cijhcm6bm005auguo5hkbmvrz" class="article-share-link">Share</a>
+      <a data-url="http://asaskevich.github.io/2014/07/15/python-flask--github/" data-id="cimm2k9xl005az4uo8ng8vp4z" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/API/">API</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Flask/">Flask</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li></ul>
@@ -456,7 +460,7 @@ ga('send', 'pageview');
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Не так давно у меня возникла необходимость парсинга и последующего вывода нужной информации из <a href="http://en.wikipedia.org/wiki/ICalendar">iCalendar</a>. После упорных поисков я наткнулся на библиотеку iCal4J. Присмотревшись к её функционалу, я понял — это то, что мне нужно. Давайте же попробуем её применить на практике.</p>
+        <p>Не так давно у меня возникла необходимость парсинга и последующего вывода нужной информации из <a href="http://en.wikipedia.org/wiki/ICalendar" target="_blank" rel="external">iCalendar</a>. После упорных поисков я наткнулся на библиотеку iCal4J. Присмотревшись к её функционалу, я понял — это то, что мне нужно. Давайте же попробуем её применить на практике.</p>
         
           <p class="article-more-link">
             <a href="/2014/07/12/java--api---icalendar/#more">Read More</a>
@@ -465,7 +469,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://asaskevich.github.io/2014/07/12/java--api---icalendar/" data-id="cijhcm6bq005iuguo1n2bigam" class="article-share-link">Share</a>
+      <a data-url="http://asaskevich.github.io/2014/07/12/java--api---icalendar/" data-id="cimm2k9xl005iz4uoc3i9q179" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/API/">API</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
@@ -512,7 +516,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://asaskevich.github.io/2014/07/01/hello-world/" data-id="cijhcm6680000uguoaaec03af" class="article-share-link">Share</a>
+      <a data-url="http://asaskevich.github.io/2014/07/01/hello-world/" data-id="cimm2k9u40000z4uodzuypxvc" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Jekyll/">Jekyll</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Newbie/">Newbie</a></li></ul>
@@ -610,7 +614,7 @@ ga('send', 'pageview');
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2016 Alex Saskevich<br>
+      &copy; 2017 Alex Saskevich<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
@@ -628,11 +632,11 @@ ga('send', 'pageview');
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
-  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
 
 
-<script src="/js/script.js" type="text/javascript"></script>
+<script src="/js/script.js"></script>
 
   </div>
 </body>

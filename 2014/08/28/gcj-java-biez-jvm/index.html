@@ -6,12 +6,14 @@
   <title>GCJ: Java без JVM | Some Useful Notes</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="Да, именно так: Java без JVM. В данной статье рассмотрим работу с Java (компиляция/запуск), не используя такие средства, как JVM/JDK и подобное. Ах да, и никаких on-line инструментов, все только локал">
+<meta name="keywords" content="Java,C,GCJ">
 <meta property="og:type" content="article">
 <meta property="og:title" content="GCJ: Java без JVM">
 <meta property="og:url" content="http://asaskevich.github.io/2014/08/28/gcj-java-biez-jvm/index.html">
 <meta property="og:site_name" content="Some Useful Notes">
 <meta property="og:description" content="Да, именно так: Java без JVM. В данной статье рассмотрим работу с Java (компиляция/запуск), не используя такие средства, как JVM/JDK и подобное. Ах да, и никаких on-line инструментов, все только локал">
-<meta property="og:updated_time" content="2016-01-16T16:05:07.126Z">
+<meta property="og:locale" content="ru, en">
+<meta property="og:updated_time" content="2016-01-16T16:05:08.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="GCJ: Java без JVM">
 <meta name="twitter:description" content="Да, именно так: Java без JVM. В данной статье рассмотрим работу с Java (компиляция/запуск), не используя такие средства, как JVM/JDK и подобное. Ах да, и никаких on-line инструментов, все только локал">
@@ -23,7 +25,7 @@
     <link rel="icon" href="/favicon.png">
   
   <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
   
 <!-- Google Analytics -->
 <script type="text/javascript">
@@ -37,6 +39,9 @@ ga('send', 'pageview');
 
 </script>
 <!-- End Google Analytics -->
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript" > (function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter45728682 = new Ya.Metrika({ id:45728682, clickmap:true, trackLinks:true, accurateTrackBounce:true }); } catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = "https://mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks"); </script> <noscript><div><img src="https://mc.yandex.ru/watch/45728682" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
 
 
 </head>
@@ -73,7 +78,7 @@ ga('send', 'pageview');
         <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
       <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://asaskevich.github.io"></form>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://asaskevich.github.io"></form>
       </div>
     </div>
   </div>
@@ -110,9 +115,9 @@ ga('send', 'pageview');
 <p>GNU Compiler for Java (GCJ или gcj) — это свободный компилятор языка Java, являющийся частью GNU Compiler Collection. GCJ может компилировать исходный код Java в байткод виртуальной машины Java, либо непосредственно в машинный код многих процессорных архитектур. Он также может компилировать файлы классов, содержащие байткод, или целые JAR, содержащие такие файлы, в машинный код.</p>
 </blockquote>
 <a id="more"></a>
-<h3 id="u0423_u0441_u0442_u0430_u043D_u043E_u0432_u043A_u0430"><a href="#u0423_u0441_u0442_u0430_u043D_u043E_u0432_u043A_u0430" class="headerlink" title="Установка"></a>Установка</h3><p>В unix-системах достаточно выполнить команду установки пакета <code>apt-get</code>:<br><figure class="highlight bash"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install gcj-jdk</span><br></pre></td></tr></table></figure></p>
+<h3 id="u0423_u0441_u0442_u0430_u043D_u043E_u0432_u043A_u0430"><a href="#u0423_u0441_u0442_u0430_u043D_u043E_u0432_u043A_u0430" class="headerlink" title="Установка"></a>Установка</h3><p>В unix-системах достаточно выполнить команду установки пакета <code>apt-get</code>:<br><figure class="highlight bash"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-get install gcj-jdk</div></pre></td></tr></table></figure></p>
 <p>В результате будет скачано и установлено около десяти мегабайт ресурсов. После чего инструмент готов к использованию.</p>
-<h3 id="u0418_u0441_u043F_u043E_u043B_u044C_u0437_u043E_u0432_u0430_u043D_u0438_u0435"><a href="#u0418_u0441_u043F_u043E_u043B_u044C_u0437_u043E_u0432_u0430_u043D_u0438_u0435" class="headerlink" title="Использование"></a>Использование</h3><p>Пишем Java код, компилируем в бинарник и запускаем:<br><figure class="highlight bash"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">asaskevich@asaskevich-U31SD:~$ cat &gt; Test.java</span><br><span class="line">public class Test &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		System.out.println(<span class="string">"Hi from gcj!"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">^C</span><br><span class="line">asaskevich@asaskevich-U31SD:~$ gcj --main=Test Test.java</span><br><span class="line">asaskevich@asaskevich-U31SD:~$ ./a.out</span><br><span class="line">Hi from gcj!</span><br></pre></td></tr></table></figure></p>
+<h3 id="u0418_u0441_u043F_u043E_u043B_u044C_u0437_u043E_u0432_u0430_u043D_u0438_u0435"><a href="#u0418_u0441_u043F_u043E_u043B_u044C_u0437_u043E_u0432_u0430_u043D_u0438_u0435" class="headerlink" title="Использование"></a>Использование</h3><p>Пишем Java код, компилируем в бинарник и запускаем:<br><figure class="highlight bash"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">asaskevich@asaskevich-U31SD:~$ cat &gt; Test.java</div><div class="line">public class Test &#123;</div><div class="line">	public static void main(String[] args) &#123;</div><div class="line">		System.out.println(<span class="string">"Hi from gcj!"</span>);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line">^C</div><div class="line">asaskevich@asaskevich-U31SD:~$ gcj --main=Test Test.java</div><div class="line">asaskevich@asaskevich-U31SD:~$ ./a.out</div><div class="line">Hi from gcj!</div></pre></td></tr></table></figure></p>
 <p>Строка <code>--main=Test</code> говорит о том, что точка входа в приложение находится в классе <code>Test</code>.</p>
 <h3 id="u041F_u043B_u044E_u0441_u044B"><a href="#u041F_u043B_u044E_u0441_u044B" class="headerlink" title="Плюсы"></a>Плюсы</h3><ul>
 <li>Не требует установки JVM для запуска</li>
@@ -133,7 +138,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://asaskevich.github.io/2014/08/28/gcj-java-biez-jvm/" data-id="cijhcm684001yuguovjiofg27" class="article-share-link">Share</a>
+      <a data-url="http://asaskevich.github.io/2014/08/28/gcj-java-biez-jvm/" data-id="cimm2k9vv001yz4uobrcwtk1r" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C/">C</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/GCJ/">GCJ</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
@@ -245,7 +250,7 @@ ga('send', 'pageview');
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2016 Alex Saskevich<br>
+      &copy; 2017 Alex Saskevich<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
@@ -263,11 +268,11 @@ ga('send', 'pageview');
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
-  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
 
 
-<script src="/js/script.js" type="text/javascript"></script>
+<script src="/js/script.js"></script>
 
   </div>
 </body>

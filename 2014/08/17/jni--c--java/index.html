@@ -6,12 +6,14 @@
   <title>JNI: объединяем C и Java | Some Useful Notes</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="Когда обычных средств Java не хватает, на помощь приходит JNI, который я описал вкратце в данной статье.">
+<meta name="keywords" content="Java,C,C++,JNI">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JNI: объединяем C и Java">
 <meta property="og:url" content="http://asaskevich.github.io/2014/08/17/jni--c--java/index.html">
 <meta property="og:site_name" content="Some Useful Notes">
 <meta property="og:description" content="Когда обычных средств Java не хватает, на помощь приходит JNI, который я описал вкратце в данной статье.">
-<meta property="og:updated_time" content="2016-01-16T16:05:26.085Z">
+<meta property="og:locale" content="ru, en">
+<meta property="og:updated_time" content="2016-01-16T16:05:28.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JNI: объединяем C и Java">
 <meta name="twitter:description" content="Когда обычных средств Java не хватает, на помощь приходит JNI, который я описал вкратце в данной статье.">
@@ -23,7 +25,7 @@
     <link rel="icon" href="/favicon.png">
   
   <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
   
 <!-- Google Analytics -->
 <script type="text/javascript">
@@ -37,6 +39,9 @@ ga('send', 'pageview');
 
 </script>
 <!-- End Google Analytics -->
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript" > (function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter45728682 = new Ya.Metrika({ id:45728682, clickmap:true, trackLinks:true, accurateTrackBounce:true }); } catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = "https://mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks"); </script> <noscript><div><img src="https://mc.yandex.ru/watch/45728682" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
 
 
 </head>
@@ -73,7 +78,7 @@ ga('send', 'pageview');
         <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
       <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://asaskevich.github.io"></form>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://asaskevich.github.io"></form>
       </div>
     </div>
   </div>
@@ -112,18 +117,18 @@ ga('send', 'pageview');
 <p>Если говорить кратко, JNI - механизм, связывающий Java и C/C++ в одно целое.</p>
 <a id="more"></a>
 <h3 id="u041A_u0430_u043A__u043F_u043E_u043B_u044C_u0437_u043E_u0432_u0430_u0442_u044C_u0441_u044F_3A_Java"><a href="#u041A_u0430_u043A__u043F_u043E_u043B_u044C_u0437_u043E_u0432_u0430_u0442_u044C_u0441_u044F_3A_Java" class="headerlink" title="Как пользоваться: Java"></a>Как пользоваться: Java</h3><p>Со стороны Java нам нужно описать класс, загружающий динамическую библиотеку и имеющий в себе описание функций, расположенных в библиотеке:</p>
-<figure class="highlight java"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">System.loadLibrary(<span class="string">"Library"</span>); <span class="comment">// Будет загружать Library.o или Library.dll в зависимости от ОС</span></span><br><span class="line">...</span><br><span class="line"><span class="comment">// Данные функции объявлены с модификатором native</span></span><br><span class="line"><span class="comment">// Это значит, что они расположены в динамической библиотеке</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title">libraryFunc</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">native</span> <span class="keyword">int</span> <span class="title">libraryFunc</span><span class="params">(<span class="keyword">int</span> x)</span></span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">System.loadLibrary(<span class="string">"Library"</span>); <span class="comment">// Будет загружать Library.o или Library.dll в зависимости от ОС</span></div><div class="line">...</div><div class="line"><span class="comment">// Данные функции объявлены с модификатором native</span></div><div class="line"><span class="comment">// Это значит, что они расположены в динамической библиотеке</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title">libraryFunc</span><span class="params">()</span></span>;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">native</span> <span class="keyword">int</span> <span class="title">libraryFunc</span><span class="params">(<span class="keyword">int</span> x)</span></span>;</div></pre></td></tr></table></figure>
 <h3 id="u041A_u0430_u043A__u043F_u043E_u043B_u044C_u0437_u043E_u0432_u0430_u0442_u044C_u0441_u044F_3A__u0421"><a href="#u041A_u0430_u043A__u043F_u043E_u043B_u044C_u0437_u043E_u0432_u0430_u0442_u044C_u0441_u044F_3A__u0421" class="headerlink" title="Как пользоваться: С"></a>Как пользоваться: С</h3><p>Следующим этапом необходимо создать заголовочный файл библиотеки для дальнейшей работы с динамической библиотекой:</p>
-<figure class="highlight bash"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">javac -g Main.java</span><br><span class="line">javah -jni Main</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">javac -g Main.java</div><div class="line">javah -jni Main</div></pre></td></tr></table></figure>
 <p>После выполнения данных команд в терминале мы получим файл <code>Main.h</code> примерно такого содержания:</p>
-<figure class="highlight cpp"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* DO NOT EDIT THIS FILE - it is machine generated */</span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;jni.h&gt;</span></span></span><br><span class="line"><span class="comment">/* Header for class Main */</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#<span class="keyword">ifndef</span> _Included_Main</span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">define</span> _Included_Main</span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">ifdef</span> __cplusplus</span></span><br><span class="line"><span class="keyword">extern</span> <span class="string">"C"</span> &#123;</span><br><span class="line"><span class="preprocessor">#<span class="keyword">endif</span></span></span><br><span class="line"><span class="comment">/*</span><br><span class="line"> * Class:     Main</span><br><span class="line"> * Method:    libraryFunc</span><br><span class="line"> * Signature: ()V</span><br><span class="line"> */</span></span><br><span class="line"><span class="function">JNIEXPORT <span class="keyword">void</span> JNICALL <span class="title">Java_Main_libraryFunc</span></span><br><span class="line">  <span class="params">(JNIEnv *, jclass)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#<span class="keyword">ifdef</span> __cplusplus</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="preprocessor">#<span class="keyword">endif</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* DO NOT EDIT THIS FILE - it is machine generated */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;jni.h&gt;</span></span></div><div class="line"><span class="comment">/* Header for class Main */</span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> _Included_Main</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> _Included_Main</span></div><div class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> __cplusplus</span></div><div class="line"><span class="keyword">extern</span> <span class="string">"C"</span> &#123;</div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div><div class="line"><span class="comment">/*</span></div><div class="line"><span class="comment"> * Class:     Main</span></div><div class="line"><span class="comment"> * Method:    libraryFunc</span></div><div class="line"><span class="comment"> * Signature: ()V</span></div><div class="line"><span class="comment"> */</span></div><div class="line">JNIEXPORT <span class="keyword">void</span> JNICALL Java_Main_libraryFunc</div><div class="line">  (JNIEnv *, jclass);</div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> __cplusplus</span></div><div class="line">&#125;</div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div></pre></td></tr></table></figure>
 <p>Как видим, в нашем заголовочном файле уже описана функция <code>Java_Main_libraryFunc</code>, которая расположена в классе <code>Main</code> и называется <code>libraryFunc</code>. В динамической библиотеке функция принимает дополнительные аргументы - окружение и класс.<br>Переходим к файлу <code>Main.c</code>, в котором опишем реализацию функции <code>Java_Main_libraryFunc</code>:</p>
-<figure class="highlight cpp"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;jni.h&gt;</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">"Main.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="function">JNIEXPORT <span class="keyword">void</span> JNICALL <span class="title">Java_Main_libraryFunc</span><span class="params">(JNIEnv *env, jobject obj)</span> </span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"Native code executed!\n"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;jni.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"Main.h"</span></span></div><div class="line"></div><div class="line"><span class="function">JNIEXPORT <span class="keyword">void</span> JNICALL <span class="title">Java_Main_libraryFunc</span><span class="params">(JNIEnv *env, jobject obj)</span> </span>&#123;</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"Native code executed!\n"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>Теперь этот небольшой модуль нужно скомпилировать в динамическую библиотеку:</p>
-<figure class="highlight bash"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -std=c99 -Wl,--add-stdcall-alias -I<span class="string">"&lt;JAVA_HOME&gt;\include"</span> -I<span class="string">"&lt;JAVA_HOME&gt;\include\win32"</span> -shared -o Library.dll</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gcc -std=c99 -Wl,--add-stdcall-alias -I<span class="string">"&lt;JAVA_HOME&gt;\include"</span> -I<span class="string">"&lt;JAVA_HOME&gt;\include\win32"</span> -shared -o Library.dll</div></pre></td></tr></table></figure>
 <p>Также нужно иметь ввиду, что разрядность библиотеки должна быть такой же, как и разрядность JVM.</p>
 <h3 id="u0421_u0432_u044F_u0437_u044B_u0432_u0430_u0435_u043C__u0432_u043C_u0435_u0441_u0442_u0435"><a href="#u0421_u0432_u044F_u0437_u044B_u0432_u0430_u0435_u043C__u0432_u043C_u0435_u0441_u0442_u0435" class="headerlink" title="Связываем вместе"></a>Связываем вместе</h3><p>После того, как библиотека скомпилирована, достаточно загрузить ее и вызвать нужную функцию:</p>
-<figure class="highlight java"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">System.loadLibrary(<span class="string">"Library"</span>);</span><br><span class="line">libraryFunc();</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">System.loadLibrary(<span class="string">"Library"</span>);</div><div class="line">libraryFunc();</div></pre></td></tr></table></figure>
 <h3 id="u0417_u0430_u043A_u043B_u044E_u0447_u0435_u043D_u0438_u0435"><a href="#u0417_u0430_u043A_u043B_u044E_u0447_u0435_u043D_u0438_u0435" class="headerlink" title="Заключение"></a>Заключение</h3><p>JNI - отличное средство для более близкого взаимодействия с системой. Все, что нельзя сделать средствами чистой Java, можно сделать на С/С++ и вызвать из Java. Единственным вопросом остается производительность - в каких случаях стоит обратиться к нативному коду, а в каких достаточно воспользоваться стандартными средствами.</p>
 <h3 id="u0421_u0441_u044B_u043B_u043A_u0438"><a href="#u0421_u0441_u044B_u043B_u043A_u0438" class="headerlink" title="Ссылки"></a>Ссылки</h3><ul>
 <li><a href="http://docs.oracle.com/javase/6/docs/technotes/guides/jni/" target="_blank" rel="external">Java Native Interface</a></li>
@@ -133,7 +138,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://asaskevich.github.io/2014/08/17/jni--c--java/" data-id="cijhcm68s002muguoogfzxov3" class="article-share-link">Share</a>
+      <a data-url="http://asaskevich.github.io/2014/08/17/jni--c--java/" data-id="cimm2k9wa002mz4uop698vua1" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C/">C</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C/">C++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JNI/">JNI</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
@@ -245,7 +250,7 @@ ga('send', 'pageview');
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2016 Alex Saskevich<br>
+      &copy; 2017 Alex Saskevich<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
@@ -263,11 +268,11 @@ ga('send', 'pageview');
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
-  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
 
 
-<script src="/js/script.js" type="text/javascript"></script>
+<script src="/js/script.js"></script>
 
   </div>
 </body>

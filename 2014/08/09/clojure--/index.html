@@ -6,12 +6,14 @@
   <title>Clojure: второе знакомство | Some Useful Notes</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="Знакомство с Clojure продолжается, и сегодня в программе: if, do, when ...">
+<meta name="keywords" content="Newbie,Clojure,Functional">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Clojure: второе знакомство">
 <meta property="og:url" content="http://asaskevich.github.io/2014/08/09/clojure--/index.html">
 <meta property="og:site_name" content="Some Useful Notes">
 <meta property="og:description" content="Знакомство с Clojure продолжается, и сегодня в программе: if, do, when ...">
-<meta property="og:updated_time" content="2016-01-16T16:05:45.894Z">
+<meta property="og:locale" content="ru, en">
+<meta property="og:updated_time" content="2016-01-16T16:05:46.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Clojure: второе знакомство">
 <meta name="twitter:description" content="Знакомство с Clojure продолжается, и сегодня в программе: if, do, when ...">
@@ -23,7 +25,7 @@
     <link rel="icon" href="/favicon.png">
   
   <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
   
 <!-- Google Analytics -->
 <script type="text/javascript">
@@ -37,6 +39,9 @@ ga('send', 'pageview');
 
 </script>
 <!-- End Google Analytics -->
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript" > (function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter45728682 = new Ya.Metrika({ id:45728682, clickmap:true, trackLinks:true, accurateTrackBounce:true }); } catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = "https://mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks"); </script> <noscript><div><img src="https://mc.yandex.ru/watch/45728682" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
 
 
 </head>
@@ -73,7 +78,7 @@ ga('send', 'pageview');
         <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
       <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://asaskevich.github.io"></form>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://asaskevich.github.io"></form>
       </div>
     </div>
   </div>
@@ -107,21 +112,21 @@ ga('send', 'pageview');
       
         <p>Продолжая знакомство с языком, я решил воспользоваться книгой <a href="http://www.braveclojure.com/" target="_blank" rel="external">“Clojure for the Brave and True”</a>. Удобно, понятно, самое главное - обилие примеров, простых и сложных. Что ж, продолжим статью <code>Clojure: первое знакомство</code>.<br><a id="more"></a></p>
 <h3 id="u0423_u0441_u043B_u043E_u0432_u043D_u044B_u0439__u043E_u043F_u0435_u0440_u0430_u0442_u043E_u0440"><a href="#u0423_u0441_u043B_u043E_u0432_u043D_u044B_u0439__u043E_u043F_u0435_u0440_u0430_u0442_u043E_u0440" class="headerlink" title="Условный оператор"></a>Условный оператор</h3><p>Структура оператора вполне привычна для других языков, за исключением того, что скобки располагаются не в зоне условия, а вокруг всего блока оператора:</p>
-<figure class="highlight clojure"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="list">(<span class="keyword"><span class="built_in">if</span></span> условие</span><br><span class="line">  то-действие</span><br><span class="line">  иначе-действие</span><br><span class="line">)</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight clojure"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">(<span class="name"><span class="builtin-name">if</span></span> условие</div><div class="line">  то-действие</div><div class="line">  иначе-действие</div><div class="line">)</div></pre></td></tr></table></figure>
 <p>Напишем маленький пример:</p>
-<figure class="highlight"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">user=&gt; (if false "True" "False")</span><br><span class="line">"False"</span><br><span class="line">user=&gt; (if true "True" "False")</span><br><span class="line">"True"</span><br></pre></td></tr></table></figure>
+<figure class="highlight clojure"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">user=&gt; (if false "True" "False")</div><div class="line"><span class="string">"False"</span></div><div class="line">user=&gt; (if true "True" "False")</div><div class="line"><span class="string">"True"</span></div></pre></td></tr></table></figure>
 <p>Единственное ограничение состоит в том, что здесь мы можем использовать только одно действие (написать сложную конструкцию из других операторов и функций не получится). Специально для этого в языке есть оператор <code>do</code></p>
 <h3 id="u041E_u043F_u0435_u0440_u0430_u0442_u043E_u0440_do"><a href="#u041E_u043F_u0435_u0440_u0430_u0442_u043E_u0440_do" class="headerlink" title="Оператор do"></a>Оператор <code>do</code></h3><p>Оператор служит для объединения вызова нескольких команд вместе:</p>
-<figure class="highlight"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">user=&gt; (do</span><br><span class="line">        (println "One")</span><br><span class="line">        (println "Two")</span><br><span class="line">        (println "Three")</span><br><span class="line">       )</span><br><span class="line">One</span><br><span class="line">Two</span><br><span class="line">Three</span><br><span class="line">nil</span><br></pre></td></tr></table></figure>
+<figure class="highlight clojure"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">user=&gt; (do</div><div class="line">        (<span class="name">println</span> <span class="string">"One"</span>)</div><div class="line">        (<span class="name">println</span> <span class="string">"Two"</span>)</div><div class="line">        (<span class="name">println</span> <span class="string">"Three"</span>)</div><div class="line">       )</div><div class="line">One</div><div class="line">Two</div><div class="line">Three</div><div class="line"><span class="literal">nil</span></div></pre></td></tr></table></figure>
 <p>Теперь мы можем переписать условие так, чтобы оно вывело, например результат умножения <code>5 * 5</code> и строку “Hi”:</p>
-<figure class="highlight"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">user=&gt; (if (= 10 10)</span><br><span class="line">          (do</span><br><span class="line">                  (println (* 5 5))</span><br><span class="line">                  (println "Hi")</span><br><span class="line">          )</span><br><span class="line">          (println "Nothing")</span><br><span class="line">        )</span><br><span class="line">25</span><br><span class="line">Hi</span><br><span class="line">nil</span><br></pre></td></tr></table></figure>
+<figure class="highlight clojure"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">user=&gt; (if (= 10 10)</div><div class="line">          (<span class="name"><span class="builtin-name">do</span></span></div><div class="line">                  (<span class="name">println</span> (<span class="name"><span class="builtin-name">*</span></span> <span class="number">5</span> <span class="number">5</span>))</div><div class="line">                  (<span class="name">println</span> <span class="string">"Hi"</span>)</div><div class="line">          )</div><div class="line">          (<span class="name">println</span> <span class="string">"Nothing"</span>)</div><div class="line">        )</div><div class="line"><span class="number">25</span></div><div class="line">Hi</div><div class="line"><span class="literal">nil</span></div></pre></td></tr></table></figure>
 <p>Красота да и только!</p>
 <h3 id="u041E_u043F_u0435_u0440_u0430_u0442_u043E_u0440_when"><a href="#u041E_u043F_u0435_u0440_u0430_u0442_u043E_u0440_when" class="headerlink" title="Оператор when"></a>Оператор <code>when</code></h3><p>Данный оператор как бы является комбинацией <code>if</code> и <code>do</code>, однако без формы <code>else</code>:</p>
-<figure class="highlight"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">user=&gt;  (when (= 10 10)</span><br><span class="line">         (println (* 5 5))</span><br><span class="line">         (println (+ 5 5))</span><br><span class="line">        )</span><br><span class="line">25</span><br><span class="line">10</span><br><span class="line">nil</span><br></pre></td></tr></table></figure>
+<figure class="highlight clojure"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">user=&gt;  (when (= 10 10)</div><div class="line">         (<span class="name">println</span> (<span class="name"><span class="builtin-name">*</span></span> <span class="number">5</span> <span class="number">5</span>))</div><div class="line">         (<span class="name">println</span> (<span class="name"><span class="builtin-name">+</span></span> <span class="number">5</span> <span class="number">5</span>))</div><div class="line">        )</div><div class="line"><span class="number">25</span></div><div class="line"><span class="number">10</span></div><div class="line"><span class="literal">nil</span></div></pre></td></tr></table></figure>
 <h3 id="u041E_u0431_u044A_u044F_u0432_u043B_u0435_u043D_u0438_u0435__u043F_u0435_u0440_u0435_u043C_u0435_u043D_u043D_u044B_u0445"><a href="#u041E_u0431_u044A_u044F_u0432_u043B_u0435_u043D_u0438_u0435__u043F_u0435_u0440_u0435_u043C_u0435_u043D_u043D_u044B_u0445" class="headerlink" title="Объявление переменных"></a>Объявление переменных</h3><p>Вообще, большинство переменных в языке не совсем переменные - они неизменяемые. Однако это не помешает нам переприсваивать новое значение старой переменной:</p>
-<figure class="highlight"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">user=&gt; (do</span><br><span class="line">        (def x 10)</span><br><span class="line">        (println x)</span><br><span class="line">        (def x "Some Text")</span><br><span class="line">        (println x)</span><br><span class="line">       )</span><br><span class="line">10</span><br><span class="line">Some Text</span><br><span class="line">nil</span><br></pre></td></tr></table></figure>
+<figure class="highlight clojure"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">user=&gt; (do</div><div class="line">        (<span class="name"><span class="builtin-name">def</span></span> x <span class="number">10</span>)</div><div class="line">        (<span class="name">println</span> x)</div><div class="line">        (<span class="name"><span class="builtin-name">def</span></span> x <span class="string">"Some Text"</span>)</div><div class="line">        (<span class="name">println</span> x)</div><div class="line">       )</div><div class="line"><span class="number">10</span></div><div class="line">Some Text</div><div class="line"><span class="literal">nil</span></div></pre></td></tr></table></figure>
 <p>Мы объявили переменную <code>x</code>, присвоили ей значение <code>10</code>, а потом изменили ее значение и тип на строку. Можно сделать и так:</p>
-<figure class="highlight"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">user=&gt; (def x 10)</span><br><span class="line">#'user/x</span><br><span class="line">user=&gt; (def x (+ x 1))</span><br><span class="line">#'user/x</span><br><span class="line">user=&gt; x</span><br><span class="line">11</span><br></pre></td></tr></table></figure>
+<figure class="highlight clojure"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">user=&gt; (def x 10)</div><div class="line">#'user/x</div><div class="line">user=&gt; (def x (+ x 1))</div><div class="line">#'user/x</div><div class="line">user=&gt; x</div><div class="line"><span class="number">11</span></div></pre></td></tr></table></figure>
 <p>Объявили переменную и увеличили ее значение на единицу. Не исключаю, что есть более элегантная форма решения этого действия.</p>
 <h3 id="u0417_u0430_u043A_u043B_u044E_u0447_u0435_u043D_u0438_u0435"><a href="#u0417_u0430_u043A_u043B_u044E_u0447_u0435_u043D_u0438_u0435" class="headerlink" title="Заключение"></a>Заключение</h3><p>Рассмотрели, всего-то, операторы <code>if</code>, <code>def</code>, <code>do</code>, <code>when</code>. В книге, ссылка которой указана в самом начале, следующей темой будут структуры данных. Тема весьма крупная, потому я выделю под нее отдельную статью.</p>
 <h3 id="u0421_u0441_u044B_u043B_u043A_u0438"><a href="#u0421_u0441_u044B_u043B_u043A_u0438" class="headerlink" title="Ссылки"></a>Ссылки</h3><ul>
@@ -135,7 +140,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://asaskevich.github.io/2014/08/09/clojure--/" data-id="cijhcm69w003ouguo9d0iorrk" class="article-share-link">Share</a>
+      <a data-url="http://asaskevich.github.io/2014/08/09/clojure--/" data-id="cimm2k9wq003oz4uopq7ik11l" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Clojure/">Clojure</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Functional/">Functional</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Newbie/">Newbie</a></li></ul>
@@ -247,7 +252,7 @@ ga('send', 'pageview');
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2016 Alex Saskevich<br>
+      &copy; 2017 Alex Saskevich<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
@@ -265,11 +270,11 @@ ga('send', 'pageview');
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
-  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
 
 
-<script src="/js/script.js" type="text/javascript"></script>
+<script src="/js/script.js"></script>
 
   </div>
 </body>

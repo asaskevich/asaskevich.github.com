@@ -6,12 +6,14 @@
   <title>Grunt: автоматизация работы с JS проектами | Some Useful Notes</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="Порой очень лениво и сложно выполнять одни и те же задачи раз за разом. Согласитесь, пару раз проверить проект линтом, сделать сборку и минифицировать ее можно руками, но если делать это постоянно… Не">
+<meta name="keywords" content="JavaScript,Grunt">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Grunt: автоматизация работы с JS проектами">
 <meta property="og:url" content="http://asaskevich.github.io/2014/08/29/grunt-avtomatizatsiia-raboty-s-js-proiektami/index.html">
 <meta property="og:site_name" content="Some Useful Notes">
 <meta property="og:description" content="Порой очень лениво и сложно выполнять одни и те же задачи раз за разом. Согласитесь, пару раз проверить проект линтом, сделать сборку и минифицировать ее можно руками, но если делать это постоянно… Не">
-<meta property="og:updated_time" content="2016-01-16T16:05:02.326Z">
+<meta property="og:locale" content="ru, en">
+<meta property="og:updated_time" content="2016-01-16T16:05:04.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Grunt: автоматизация работы с JS проектами">
 <meta name="twitter:description" content="Порой очень лениво и сложно выполнять одни и те же задачи раз за разом. Согласитесь, пару раз проверить проект линтом, сделать сборку и минифицировать ее можно руками, но если делать это постоянно… Не">
@@ -23,7 +25,7 @@
     <link rel="icon" href="/favicon.png">
   
   <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
   
 <!-- Google Analytics -->
 <script type="text/javascript">
@@ -37,6 +39,9 @@ ga('send', 'pageview');
 
 </script>
 <!-- End Google Analytics -->
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript" > (function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter45728682 = new Ya.Metrika({ id:45728682, clickmap:true, trackLinks:true, accurateTrackBounce:true }); } catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = "https://mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks"); </script> <noscript><div><img src="https://mc.yandex.ru/watch/45728682" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
 
 
 </head>
@@ -73,7 +78,7 @@ ga('send', 'pageview');
         <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
       <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://asaskevich.github.io"></form>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://asaskevich.github.io"></form>
       </div>
     </div>
   </div>
@@ -107,16 +112,16 @@ ga('send', 'pageview');
       
         <p>Порой очень лениво и сложно выполнять одни и те же задачи раз за разом. Согласитесь, пару раз проверить проект линтом, сделать сборку и минифицировать ее можно руками, но если делать это постоянно… Не самый лучший вариант. Для таких задач существуют специальные инструменты, автоматизирующие долгий и нудный процесс. Знакомтесь - Grunt!</p>
 <a id="more"></a>
-<h3 id="u0423_u0441_u0442_u0430_u043D_u043E_u0432_u043A_u0430"><a href="#u0423_u0441_u0442_u0430_u043D_u043E_u0432_u043A_u0430" class="headerlink" title="Установка"></a>Установка</h3><p>Прежде чем ставить Grunt, убедитесь, что у вас установлен Node.js. Если не установлен - следуйте <a href="http://nodejs.org/" target="_blank" rel="external">данной ссылке</a>, после чего можно перейти к процессу установки Grunt’a.<br><figure class="highlight bash"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install -g grunt-cli</span><br></pre></td></tr></table></figure></p>
-<p>Следует заметить, что хоть данная команда подготавливает к использованию команду <code>grunt</code>, сам Grunt еще не установлен.<br>Также я установил <code>grunt-init</code>, который позволяет быстро и легко инициализировать проект по некоторому заданному шаблону:<br><figure class="highlight bash"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install -g grunt-init</span><br></pre></td></tr></table></figure></p>
-<p>Далее нужно перейти в папку <code>.grunt-init</code> (На Windows у меня <code>c:/Users/User/.grunt-init</code>), и там установить шаблон, например шаблон нового npm-модуля:<br><figure class="highlight bash"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> https://github.com/gruntjs/grunt-init-node.git node</span><br></pre></td></tr></table></figure></p>
-<h3 id="u0421_u043E_u0437_u0434_u0430_u043D_u0438_u0435__u043F_u0440_u043E_u0435_u043A_u0442_u0430"><a href="#u0421_u043E_u0437_u0434_u0430_u043D_u0438_u0435__u043F_u0440_u043E_u0435_u043A_u0442_u0430" class="headerlink" title="Создание проекта"></a>Создание проекта</h3><p>Так как я сразу поставил утилиту инициализации нового проекта, мне не придется руками прописывать всю информацию в <code>Gruntfile.js</code>, я всего лишь выполню <code>grunt-init node</code>. После чего мне будет создан проект со следующей структурой (может отличаться):<br><figure class="highlight bash"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">project</span><br><span class="line">  |-  lib</span><br><span class="line">  |   |-  File.js</span><br><span class="line">  |- <span class="built_in">test</span></span><br><span class="line">  |   |-  File_test.js</span><br><span class="line">  |- node_modules</span><br><span class="line">  |   |- папки зависимостей проекта</span><br><span class="line">  |-  .gitignore</span><br><span class="line">  |-  .jshintrc</span><br><span class="line">  |-  Gruntfile.js</span><br><span class="line">  |-  package.json</span><br><span class="line">  |-  README.md</span><br></pre></td></tr></table></figure></p>
+<h3 id="u0423_u0441_u0442_u0430_u043D_u043E_u0432_u043A_u0430"><a href="#u0423_u0441_u0442_u0430_u043D_u043E_u0432_u043A_u0430" class="headerlink" title="Установка"></a>Установка</h3><p>Прежде чем ставить Grunt, убедитесь, что у вас установлен Node.js. Если не установлен - следуйте <a href="http://nodejs.org/" target="_blank" rel="external">данной ссылке</a>, после чего можно перейти к процессу установки Grunt’a.<br><figure class="highlight bash"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install -g grunt-cli</div></pre></td></tr></table></figure></p>
+<p>Следует заметить, что хоть данная команда подготавливает к использованию команду <code>grunt</code>, сам Grunt еще не установлен.<br>Также я установил <code>grunt-init</code>, который позволяет быстро и легко инициализировать проект по некоторому заданному шаблону:<br><figure class="highlight bash"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install -g grunt-init</div></pre></td></tr></table></figure></p>
+<p>Далее нужно перейти в папку <code>.grunt-init</code> (На Windows у меня <code>c:/Users/User/.grunt-init</code>), и там установить шаблон, например шаблон нового npm-модуля:<br><figure class="highlight bash"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ git <span class="built_in">clone</span> https://github.com/gruntjs/grunt-init-node.git node</div></pre></td></tr></table></figure></p>
+<h3 id="u0421_u043E_u0437_u0434_u0430_u043D_u0438_u0435__u043F_u0440_u043E_u0435_u043A_u0442_u0430"><a href="#u0421_u043E_u0437_u0434_u0430_u043D_u0438_u0435__u043F_u0440_u043E_u0435_u043A_u0442_u0430" class="headerlink" title="Создание проекта"></a>Создание проекта</h3><p>Так как я сразу поставил утилиту инициализации нового проекта, мне не придется руками прописывать всю информацию в <code>Gruntfile.js</code>, я всего лишь выполню <code>grunt-init node</code>. После чего мне будет создан проект со следующей структурой (может отличаться):<br><figure class="highlight bash"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">project</div><div class="line">  |-  lib</div><div class="line">  |   |-  File.js</div><div class="line">  |- <span class="built_in">test</span></div><div class="line">  |   |-  File_test.js</div><div class="line">  |- node_modules</div><div class="line">  |   |- папки зависимостей проекта</div><div class="line">  |-  .gitignore</div><div class="line">  |-  .jshintrc</div><div class="line">  |-  Gruntfile.js</div><div class="line">  |-  package.json</div><div class="line">  |-  README.md</div></pre></td></tr></table></figure></p>
 <p>Как видим, всю работу мы проводим в <code>File.js</code>, тесты пишем в <code>File_test.js</code>, конфигурируем проект в <code>package.json</code>, настраиваем Grunt в <code>Gruntfile.js</code> и так далее.</p>
-<h3 id="u0417_u0430_u043F_u0443_u0441_u043A"><a href="#u0417_u0430_u043F_u0443_u0441_u043A" class="headerlink" title="Запуск"></a>Запуск</h3><p>В папке проекта сначала нужно выполнить локальную установку Grunt:<br><figure class="highlight bash"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install grunt --save-dev</span><br></pre></td></tr></table></figure></p>
-<p>Затем уже можно выполнять <code>grunt</code>. Если система сообщает об отсутствии каких-то компонентов, нужно их также установить, например:<br><figure class="highlight bash"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install grunt-contrib-uglify --save-dev</span><br></pre></td></tr></table></figure></p>
-<h3 id="u0414_u043E_u0431_u0430_u0432_u043B_u0435_u043D_u0438_u0435__u0437_u0430_u0434_u0430_u0447"><a href="#u0414_u043E_u0431_u0430_u0432_u043B_u0435_u043D_u0438_u0435__u0437_u0430_u0434_u0430_u0447" class="headerlink" title="Добавление задач"></a>Добавление задач</h3><p>Так как Grunt работает в первую очередь с задачами, стоит научиться их конфигурировать и создавать. В качестве примера добавим минификацию готового проекта. Данную задачу решает <code>grunt-contrib-uglify</code> из примера выше. Так как командой из примера выше мы уже узнали, как ставить локально новые зависимости, мы можем перейти непосредственно к редактированию <code>Gruntfile.js</code>. Добавим задачу:<br><figure class="highlight js"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grunt.loadNpmTasks(<span class="string">'grunt-contrib-uglify'</span>);</span><br></pre></td></tr></table></figure></p>
-<p>Затем сконфигурируем:<br><figure class="highlight js"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Данный кусок кода находится внутри grunt.initConfig(&#123; ... &#125;);</span></span><br><span class="line">uglify: &#123;</span><br><span class="line">	dist: &#123;</span><br><span class="line">		src: <span class="string">'&lt;%= concat.dist.dest %&gt;'</span>,</span><br><span class="line">		dest: <span class="string">'dist/&lt;%= pkg.name %&gt;.min.js'</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure></p>
-<p>Добавляем задачу в набор задач, выполняемых по умолчанию:<br><figure class="highlight js"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Default task.</span></span><br><span class="line">grunt.registerTask(<span class="string">'default'</span>, [<span class="string">'jshint'</span>, <span class="string">'nodeunit'</span>, <span class="string">'uglify'</span>]);</span><br></pre></td></tr></table></figure></p>
+<h3 id="u0417_u0430_u043F_u0443_u0441_u043A"><a href="#u0417_u0430_u043F_u0443_u0441_u043A" class="headerlink" title="Запуск"></a>Запуск</h3><p>В папке проекта сначала нужно выполнить локальную установку Grunt:<br><figure class="highlight bash"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install grunt --save-dev</div></pre></td></tr></table></figure></p>
+<p>Затем уже можно выполнять <code>grunt</code>. Если система сообщает об отсутствии каких-то компонентов, нужно их также установить, например:<br><figure class="highlight bash"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install grunt-contrib-uglify --save-dev</div></pre></td></tr></table></figure></p>
+<h3 id="u0414_u043E_u0431_u0430_u0432_u043B_u0435_u043D_u0438_u0435__u0437_u0430_u0434_u0430_u0447"><a href="#u0414_u043E_u0431_u0430_u0432_u043B_u0435_u043D_u0438_u0435__u0437_u0430_u0434_u0430_u0447" class="headerlink" title="Добавление задач"></a>Добавление задач</h3><p>Так как Grunt работает в первую очередь с задачами, стоит научиться их конфигурировать и создавать. В качестве примера добавим минификацию готового проекта. Данную задачу решает <code>grunt-contrib-uglify</code> из примера выше. Так как командой из примера выше мы уже узнали, как ставить локально новые зависимости, мы можем перейти непосредственно к редактированию <code>Gruntfile.js</code>. Добавим задачу:<br><figure class="highlight js"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">grunt.loadNpmTasks(<span class="string">'grunt-contrib-uglify'</span>);</div></pre></td></tr></table></figure></p>
+<p>Затем сконфигурируем:<br><figure class="highlight js"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Данный кусок кода находится внутри grunt.initConfig(&#123; ... &#125;);</span></div><div class="line">uglify: &#123;</div><div class="line">	dist: &#123;</div><div class="line">		src: <span class="string">'&lt;%= concat.dist.dest %&gt;'</span>,</div><div class="line">		dest: <span class="string">'dist/&lt;%= pkg.name %&gt;.min.js'</span></div><div class="line">	&#125;</div><div class="line">&#125;,</div></pre></td></tr></table></figure></p>
+<p>Добавляем задачу в набор задач, выполняемых по умолчанию:<br><figure class="highlight js"><figcaption><span>Sample code</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Default task.</span></div><div class="line">grunt.registerTask(<span class="string">'default'</span>, [<span class="string">'jshint'</span>, <span class="string">'nodeunit'</span>, <span class="string">'uglify'</span>]);</div></pre></td></tr></table></figure></p>
 <p>Если все сделано верно, при следующем запуске <code>grunt</code> мы получим на выходе минифицированный файл проекта.</p>
 <h3 id="u0417_u0430_u043A_u043B_u044E_u0447_u0435_u043D_u0438_u0435"><a href="#u0417_u0430_u043A_u043B_u044E_u0447_u0435_u043D_u0438_u0435" class="headerlink" title="Заключение"></a>Заключение</h3><p>Если ваш проект еще не настроен для работы с средствами автоматической сборки, менеджерами задач, лучше это сделать сейчас. Таким образом получится сэкономить много времени, которое, вместо того, чтобы быть потраченым на ненужные мелочи, будет потрачено с толком и гораздо большей пользой.</p>
 <h3 id="u0421_u0441_u044B_u043B_u043A_u0438"><a href="#u0421_u0441_u044B_u043B_u043A_u0438" class="headerlink" title="Ссылки"></a>Ссылки</h3><ul>
@@ -128,7 +133,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://asaskevich.github.io/2014/08/29/grunt-avtomatizatsiia-raboty-s-js-proiektami/" data-id="cijhcm67w001tuguotire1p9g" class="article-share-link">Share</a>
+      <a data-url="http://asaskevich.github.io/2014/08/29/grunt-avtomatizatsiia-raboty-s-js-proiektami/" data-id="cimm2k9vv001tz4uouszvh6rs" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Grunt/">Grunt</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -240,7 +245,7 @@ ga('send', 'pageview');
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2016 Alex Saskevich<br>
+      &copy; 2017 Alex Saskevich<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
@@ -258,11 +263,11 @@ ga('send', 'pageview');
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
-  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
 
 
-<script src="/js/script.js" type="text/javascript"></script>
+<script src="/js/script.js"></script>
 
   </div>
 </body>
