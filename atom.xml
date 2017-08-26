@@ -28,7 +28,7 @@
 <p>Okay, it was the preface and now we can to start working with <em>“Hello World”</em>.</p>
 <p>What do you need when working with React? You can start with this little <a href="http://facebook.github.io/react/downloads/react-0.11.2.zip" target="_blank" rel="external">starter kit</a> or this <a href="http://jsfiddle.net/vjeux/kb3gN/" target="_blank" rel="external">JSFiddle</a>. It contains JSX transformer that can help you turn JSX into valid JavaScript that can be used everywhere.</p>
 <p>I created this HTML file and include all necessary scripts:</p>
-<figure class="highlight html"><figcaption><span>Sample Code</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"js/react.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"js/JSXTransformer.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/jsx"</span>&gt;</span><span class="undefined"></span></div><div class="line"><span class="undefined">      // React Code Goes Here</span></div><div class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight html"><figcaption><span>Sample Code</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"js/react.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"js/JSXTransformer.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/jsx"</span>&gt;</span><span class="undefined"></span></div><div class="line"><span class="javascript">      <span class="comment">// React Code Goes Here</span></span></div><div class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
 <p>As you can see, the file has a script section with type “<em>text/jsx</em>”, so we can write all code here.</p>
 <p>At first step, we should render “Hello World” in our HTML:</p>
 <figure class="highlight javascript"><figcaption><span>Sample Code</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;script type=<span class="string">"text/jsx"</span>&gt;</div><div class="line">    <span class="comment">/** @jsx React.DOM */</span></div><div class="line">    React.render(</div><div class="line">        &lt;h1&gt;Hello, world!<span class="xml"><span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span>,</div><div class="line">        <span class="built_in">document</span>.body <span class="comment">// or even document.getElementById('my-react-div')</span></div><div class="line">    );</div><div class="line">&lt;<span class="regexp">/script&gt;</span></div></pre></td></tr></table></figure>
@@ -62,9 +62,9 @@
     
       <category term="Newbie" scheme="http://asaskevich.github.io/tags/Newbie/"/>
     
-      <category term="React" scheme="http://asaskevich.github.io/tags/React/"/>
-    
       <category term="JavaScript" scheme="http://asaskevich.github.io/tags/JavaScript/"/>
+    
+      <category term="React" scheme="http://asaskevich.github.io/tags/React/"/>
     
       <category term="JavaScript" scheme="http://asaskevich.github.io/categories/JavaScript/"/>
     
@@ -197,9 +197,9 @@
     
     </summary>
     
-      <category term="Go" scheme="http://asaskevich.github.io/tags/Go/"/>
-    
       <category term="API" scheme="http://asaskevich.github.io/tags/API/"/>
+    
+      <category term="Go" scheme="http://asaskevich.github.io/tags/Go/"/>
     
       <category term="Validation" scheme="http://asaskevich.github.io/tags/Validation/"/>
     
@@ -632,11 +632,11 @@ undefined
     
       <category term="Newbie" scheme="http://asaskevich.github.io/tags/Newbie/"/>
     
+      <category term="Backbone.js" scheme="http://asaskevich.github.io/tags/Backbone-js/"/>
+    
       <category term="Node.js" scheme="http://asaskevich.github.io/tags/Node-js/"/>
     
       <category term="Sails.js" scheme="http://asaskevich.github.io/tags/Sails-js/"/>
-    
-      <category term="Backbone.js" scheme="http://asaskevich.github.io/tags/Backbone-js/"/>
     
       <category term="JavaScript" scheme="http://asaskevich.github.io/categories/JavaScript/"/>
     
@@ -760,9 +760,9 @@ undefined
     
     </summary>
     
-      <category term="JavaScript" scheme="http://asaskevich.github.io/tags/JavaScript/"/>
-    
       <category term="API" scheme="http://asaskevich.github.io/tags/API/"/>
+    
+      <category term="JavaScript" scheme="http://asaskevich.github.io/tags/JavaScript/"/>
     
       <category term="StackExchange" scheme="http://asaskevich.github.io/tags/StackExchange/"/>
     
@@ -954,11 +954,11 @@ undefined
     
     </summary>
     
+      <category term="Scala" scheme="http://asaskevich.github.io/tags/Scala/"/>
+    
       <category term="Concurrency" scheme="http://asaskevich.github.io/tags/Concurrency/"/>
     
       <category term="Actors" scheme="http://asaskevich.github.io/tags/Actors/"/>
-    
-      <category term="Scala" scheme="http://asaskevich.github.io/tags/Scala/"/>
     
       <category term="Scala" scheme="http://asaskevich.github.io/categories/Scala/"/>
     
